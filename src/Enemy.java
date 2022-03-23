@@ -1,11 +1,11 @@
 import java.util.Random;
 
 public class Enemy{
-    private int enemyHp = 0;
-    private String avgEnemyWeapon = "";
-    private int weaponsStrength = 0;
+    private int enemyHp;
+    private String avgEnemyWeapon;
+    private int weaponsStrength;
     private String name = "";
-    private String enemyType = "";
+    private String enemyType;
     ColorText color = new ColorText();
 
     Random rand = new Random();
@@ -46,13 +46,13 @@ public class Enemy{
     }
 
     private int avgEnemyHealthRandom(){
-        return enemyHp = rand.nextInt(60)+20;
+        return enemyHp = rand.nextInt(60)+30;
     }
 
     private String avgWeapon(){
         String[] weapons = {"Stick", "Short Sword", "Long Sword", "Club", "Axe"};
 
-        String avgEnemyWeapon = weapons[rand.nextInt(weapons.length)];
+        avgEnemyWeapon = weapons[rand.nextInt(weapons.length)];
 
         return avgEnemyWeapon;
     }

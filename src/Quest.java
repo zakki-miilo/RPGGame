@@ -6,8 +6,8 @@ public class Quest {
 
 
     public static void main(String[] args) throws FileNotFoundException, InterruptedException {
-        String heroName = "";
-        String answer = "";
+        String heroName;
+        String answer;
         Story story = new Story();
         ColorText color = new ColorText();
         Scanner scan = new Scanner(System.in);
@@ -21,6 +21,7 @@ public class Quest {
         heroName = scan.nextLine();
         Character hero = new Character(heroName);
         Battle battle = new Battle(heroName, hero);
+        System.out.println(color.TEXT_PURPLE + "*Two days later...*" + color.TEXT_RESET);
         System.out.println("Welcome to the kingdom of Erzaakai! Mighty hero, "+heroName + ", I am king Elpeanor");
         System.out.println("I am grateful you have arrived so soon!");
         System.out.println(color.TEXT_PURPLE +" * Angry and sad...with tears in his eyes*"+ color.TEXT_RESET);
@@ -33,15 +34,15 @@ public class Quest {
         Thread.sleep(1000);
         hero.setGold(500);
         Thread.sleep(500);
-        System.out.println("\"Please talk to the servants, check for clues. The culprit may have left something behind.\"");
+        System.out.println("\"Please talk to the servants, check the princess's room for clues. The culprit may have left something behind.\"");
         Thread.sleep(1000);
         System.out.println(color.TEXT_PURPLE + "*Left the throne room*" + color.TEXT_RESET);
         Thread.sleep(1000);
         System.out.println("Where do you go?");
-        System.out.println("| Princess's room | Town Centre | Talk to servant |");
+        System.out.println("| p: Princess's room | c:Town Centre | s:Talk to servant |");
         answer = scan.nextLine().toLowerCase();
 
-            if (answer.equals("princess") || answer.equals("room") || answer.equals("princess's room")) {
+            if (answer.equals("princess") || answer.equals("room") || answer.equals("princess's room")|| answer.equals("p")) {
                 System.out.println(color.TEXT_PURPLE+ "*Walks into room...Crack!*"+color.TEXT_RESET);
                 System.out.println("\"What was that...?\"");
 
@@ -58,7 +59,7 @@ public class Quest {
                         Thread.sleep(3000);
                         System.out.println(color.TEXT_PURPLE+"* a frightened servant girl appeared from where the Orc jumped. *" +color.TEXT_RESET);
                         Thread.sleep(3000);
-                        System.out.println("\nIt has been hiding waiting to ambush the king." +
+                        System.out.println("It has been hiding waiting to ambush the king." +
                                 "\nHere, this is all I can offer you as gratitude." +
                                 "\nThis is all so scary... Pl-pl-please head to th-the town centre. " +
                                 "\nThere you'll find supplies, potions and armours to aid you in this quest.");
@@ -73,11 +74,11 @@ public class Quest {
                 }while (chance < 2);
                 System.out.println(color.TEXT_PURPLE+"*Head To Town*"+color.TEXT_RESET);
                 Thread.sleep(3000);
-            } else if (answer.equals("town")) {
+            } else if (answer.equals("town")|| answer.equals("t")) {
                 //go to town
                 System.out.println(color.TEXT_PURPLE+"*Head To Town*"+color.TEXT_RESET);
                 story.toTown();
-            } else if (answer.equals("servant") || answer.equals("talk to servant")) {
+            } else if (answer.equals("servant") || answer.equals("talk to servant")|| answer.equals("s")) {
                 //go to talk to servant
                 System.out.println("talking to servant");
             }
@@ -89,7 +90,7 @@ public class Quest {
         String decision = scan.nextLine().toLowerCase();
         if (decision.equals("blue's shop") || decision.equals("b")) {
             System.out.println("Welcome to Blue's Good and More. How can I help you today?");
-        } else if (decision.equals("Talk to Villagers") || decision.equals("v")) {
+        } else if (decision.equals("talk to villagers") || decision.equals("v")) {
 
             System.out.println("A elder man and woman are going about their business selling fish.");
             System.out.println("*Approaching them...*");

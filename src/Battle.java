@@ -8,11 +8,11 @@ public class Battle extends Character {
     DiceFate fateBattle = new DiceFate();
     Scanner scanBattle = new Scanner(System.in);
     ColorText color = new ColorText();
-    String hero = "";
+    String hero;
     Enemy orc1 = new Enemy();
     Random rand = new Random();
-    int coin = 0;
-    int fate = 0;
+    int coin;
+    int fate;
     Inventory inventory = new Inventory();
     //Timer timer = new Timer();
     boolean shield = false;
@@ -27,7 +27,7 @@ public class Battle extends Character {
             System.out.println("* BATTLE Begins *");
             Thread.sleep(4000);
             showHealth(hero);
-            System.out.println("*You pulls out a " + hero.heroWeapon + "*");
+            System.out.println("*You pull out a " + hero.heroWeapon + "*");
             Thread.sleep(3000);
             showEnemyHp(orc1);
             System.out.println("*Orc is staring... with " + orc1.getAvgEnemyWeapon()+ " in hand*");
@@ -47,14 +47,12 @@ public class Battle extends Character {
                         if (orc1.getAvgEnemyHealth() == 0) {
                             orc1.isDead();
                             goldReward(hero, 5);
-                            Thread.sleep(3000);
                             break;
                         }
                     }else {
                         heroBattle(hero);
                         if(orc1.getAvgEnemyHealth() == 0){
                             orc1.isDead();
-                            Thread.sleep(3000);
                             goldReward(hero, 5);
                             break;
 
@@ -101,7 +99,7 @@ public class Battle extends Character {
                 showHealth(hero);
                 Thread.sleep(3000);
             }else if(reply.equals("attack")|| reply.equals("a")){
-                if (fate <= 0) { //testing number 0, change back to 3 later
+                if (fate <= 3) {
                     heroMissedAtt(hero);
                     Thread.sleep(2000);
                 } else {
@@ -132,7 +130,7 @@ public class Battle extends Character {
                 Thread.sleep(2000);
                 //System.out.println("__________________________");
             } else {
-                if (shield == true) {
+                if (shield) {
                     int normalStrength = orc1.getWeaponsStrength();
                     orc1.setWeaponsStrength(0);
                     System.out.println("---------------------------");
