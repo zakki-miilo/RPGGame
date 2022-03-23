@@ -91,7 +91,8 @@ public class Quest {
         if (decision.equals("blue's shop") || decision.equals("b")) {
             System.out.println("Welcome to Blue's Good and More. How can I help you today?");
             System.out.println("My Name is Billy, Here is what we have in stock");
-            shop.inShop(color);
+            shop.inShop();
+            System.out.println("What would you like?");
         } else if (decision.equals("talk to villagers") || decision.equals("v")) {
 
             System.out.println("A elder man and woman are going about their business selling fish.");
