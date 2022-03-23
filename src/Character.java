@@ -41,7 +41,7 @@ public class Character{
         }
     }
     private int strength(){
-        return this.heroStrength = rand.nextInt(25)+5;
+        return this.heroStrength = rand.nextInt(25);
     }
 
 

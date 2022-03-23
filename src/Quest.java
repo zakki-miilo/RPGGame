@@ -8,16 +8,16 @@ public class Quest {
     public static void main(String[] args) throws FileNotFoundException, InterruptedException {
         String heroName;
         String answer;
+        Shop shop = new Shop();
         Story story = new Story();
         ColorText color = new ColorText();
         Scanner scan = new Scanner(System.in);
         System.out.println(color.TEXT_CYAN + "Welcome Player, to the world of Knight's Quest!"+ color.TEXT_RESET);
         System.out.println(color.TEXT_CYAN+ "Whether you are ready or not. There is no turning back now..."+ color.TEXT_RESET);
-        Thread.sleep(2000);
+        Thread.sleep(1000);
         story.intro();
-        Thread.sleep(4000);
+        Thread.sleep(1000);
         System.out.println(color.TEXT_CYAN+ "What is your name Hero?"+color.TEXT_RESET);
-
         heroName = scan.nextLine();
         Character hero = new Character(heroName);
         Battle battle = new Battle(heroName, hero);
@@ -29,7 +29,7 @@ public class Quest {
         System.out.println(color.TEXT_CYAN+ "Will you accept this quest to find and rescue her?"+color.TEXT_RESET);
         answer = scan.nextLine();
         System.out.println("Th-th-thank you brave hero! There is... still hope. Here, this is 500G to aid you in this Journey! Please hurry!");
-        Thread.sleep(3000);
+        Thread.sleep(1000);
         System.out.println(color.TEXT_YELLOW + "*The King Gives " + heroName + " 500G*" + color.TEXT_RESET);
         Thread.sleep(1000);
         hero.setGold(500);
@@ -39,19 +39,19 @@ public class Quest {
         System.out.println(color.TEXT_PURPLE + "*Left the throne room*" + color.TEXT_RESET);
         Thread.sleep(1000);
         System.out.println("Where do you go?");
-        System.out.println("| p: Princess's room | c:Town Centre | s:Talk to servant |");
+        System.out.println(color.TEXT_CYAN +color.GLASS_BG+" p: Princess's room | c:Town Centre | s:Talk to servant "+color.RESET_BG+color.TEXT_RESET);
         answer = scan.nextLine().toLowerCase();
 
             if (answer.equals("princess") || answer.equals("room") || answer.equals("princess's room")|| answer.equals("p")) {
-                System.out.println(color.TEXT_PURPLE+ "*Walks into room...Crack!*"+color.TEXT_RESET);
+                System.out.println(color.TEXT_CYAN+ "*Walks into room...Crack!*"+color.TEXT_RESET);
                 System.out.println("\"What was that...?\"");
 
                 int chance = 0;
                 do {
-                    System.out.println("Search under the bed | Search the cabinet | Search the ceiling");
+                    System.out.println(color.TEXT_CYAN +color.GLASS_BG+" b: Search bed | d: Search draws | c: Search ceiling "+color.RESET_BG+color.TEXT_RESET);
                     answer = scan.nextLine();
                     System.out.println("Searching...");
-                    if(answer.equals("ceiling")){
+                    if(answer.equals("ceiling") || answer.equals("c") ){
                         System.out.println(color.TEXT_PURPLE +"* suddenly an orc jumps at you from the shadows above! *"+ color.TEXT_RESET);
                         battle.battleDeath(hero);
                         Thread.sleep(3000);
@@ -84,12 +84,14 @@ public class Quest {
             }
 
             story.toTown();
-        Thread.sleep(5000);
+        Thread.sleep(1000);
         System.out.println("What do you do?");
         System.out.println(color.TEXT_BLUE + "| b: Blue's shop | v: Talk to Villagers | t: travel out of town |" + color.TEXT_RESET);
         String decision = scan.nextLine().toLowerCase();
         if (decision.equals("blue's shop") || decision.equals("b")) {
             System.out.println("Welcome to Blue's Good and More. How can I help you today?");
+            System.out.println("My Name is Billy, Here is what we have in stock");
+            shop.inShop(color);
         } else if (decision.equals("talk to villagers") || decision.equals("v")) {
 
             System.out.println("A elder man and woman are going about their business selling fish.");

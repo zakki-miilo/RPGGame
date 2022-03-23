@@ -1,8 +1,5 @@
-import java.nio.charset.Charset;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class Battle extends Character {
     DiceFate fateBattle = new DiceFate();
@@ -14,8 +11,8 @@ public class Battle extends Character {
     int coin;
     int fate;
     Inventory inventory = new Inventory();
-    //Timer timer = new Timer();
     boolean shield = false;
+    int critChance;
 
     public Battle(String hero, Character character) {
         super(hero);
@@ -24,15 +21,8 @@ public class Battle extends Character {
     }
 
     public void battleDeath(Character hero) throws InterruptedException {
-            System.out.println("* BATTLE Begins *");
-            Thread.sleep(4000);
-            showHealth(hero);
-            System.out.println("*You pull out a " + hero.heroWeapon + "*");
-            Thread.sleep(3000);
-            showEnemyHp(orc1);
-            System.out.println("*Orc is staring... with " + orc1.getAvgEnemyWeapon()+ " in hand*");
-            Thread.sleep(3000);
 
+            battleStart(hero);
             coinFlip(coin, hero);
             if (orc1.getAvgEnemyHealth() == 0) {
                 orc1.isDead();
@@ -62,14 +52,12 @@ public class Battle extends Character {
                     }
                 }
             }
-
-
-
     }
 
     private int coin(){
         return coin = rand.nextInt(2);
     }
+
     private void coinFlip(int coin, Character hero) throws InterruptedException {
         if(coin == 1){
             System.out.println("---------------------------");
@@ -88,9 +76,7 @@ public class Battle extends Character {
             fate = fateBattle.randomDice();
             System.out.println("__________________________");
             System.out.println("What do you do?");
-            System.out.println("__________________________");
-            System.out.println(color.TEXT_CYAN + "a: Attack | d: Defend | i: Inventory"+color.TEXT_RESET);
-            System.out.println("---------------------------");
+            System.out.println(color.TEXT_CYAN +color.GLASS_BG+ " a: Attack | d: Defend | i: Inventory "+color.RESET_BG+color.TEXT_RESET);
             String reply = scanBattle.nextLine().toLowerCase();
 
             if(reply.equals("inventory") || reply.equals("i")){
@@ -99,7 +85,7 @@ public class Battle extends Character {
                 showHealth(hero);
                 Thread.sleep(3000);
             }else if(reply.equals("attack")|| reply.equals("a")){
-                if (fate <= 3) {
+                if (fate <= 2) {
                     heroMissedAtt(hero);
                     Thread.sleep(2000);
                 } else {
@@ -124,7 +110,7 @@ public class Battle extends Character {
 
     private void enemyBattle(Character hero) throws InterruptedException {
             fate = fateBattle.randomDice();
-            if (fate <= 3) {
+            if (fate <= 2) {
                 System.out.println("__________________________");
                 System.out.println("Orc Attacks and misses!");
                 Thread.sleep(2000);
@@ -154,9 +140,8 @@ public class Battle extends Character {
                     System.out.println("---------------------------");
                     System.out.println("Orc swing his " + orc1.getAvgEnemyWeapon() + " at you");
                     Thread.sleep(3000);
-                    hero.setHealth(orc1.getWeaponsStrength());
                     System.out.println("__________________________");
-                    successHitHero();
+                    successHitHero(hero);
                     Thread.sleep(3000);
                     System.out.println("---------------------------");
                     showHealth(hero);
@@ -167,6 +152,18 @@ public class Battle extends Character {
                     }
                 }
             }
+    }
+
+    private void battleStart(Character hero) throws InterruptedException {
+        System.out.println(color.TEXT_RED +color.GLASS_BG+" »-(¯`·.·´¯)->BATTLE Begins" +
+                "<-(¯`·.·´¯)-«   "+color.RESET_BG+color.TEXT_RESET);
+        Thread.sleep(4000);
+        showHealth(hero);
+        System.out.println("*You pull out a " + hero.heroWeapon + "*");
+        Thread.sleep(3000);
+        showEnemyHp(orc1);
+        System.out.println("*Orc is staring... with " + orc1.getAvgEnemyWeapon()+ " in hand*");
+        Thread.sleep(3000);
     }
 
     public void showHealth(Character hero){
@@ -183,11 +180,16 @@ public class Battle extends Character {
     }
 
     private void successHitEnemy(Character hero){
-        orc1.setAvgEnemyHealth(hero.getHeroStrength());
+        critChance = rand.nextInt(15)+2;
+        System.out.println("Critical attack +" + critChance);
+        orc1.setAvgEnemyHealth(hero.getHeroStrength()+critChance);
         System.out.println(ColorText.TEXT_RED +"HIT! The "+ orc1.getEnemyType() +" has taken damaged -" + hero.getHeroStrength()+ "HP"+ ColorText.TEXT_RESET);
     }
 
-    private void successHitHero(){
+    private void successHitHero(Character hero){
+        critChance = rand.nextInt(10)+2;
+        System.out.println("Critical attack +" + critChance);
+        hero.setHealth(orc1.getWeaponsStrength()+critChance);
         System.out.println(ColorText.TEXT_RED + "You have been HIT! ORC slashes with his " + orc1.getAvgEnemyWeapon() + "." + ColorText.TEXT_RESET);
         System.out.println(ColorText.TEXT_RED +"-" + orc1.getWeaponsStrength() + " HP" + ColorText.TEXT_RESET);
     }

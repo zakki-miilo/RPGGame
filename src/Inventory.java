@@ -24,6 +24,7 @@ public class Inventory {
     }
 
     public void showItems(Character hero) {
+        //TODO: loop this menu
         System.out.println("| p: Potions | r: Rocks | n: Notebook |");
         userPick = inventScan.nextLine().toLowerCase();
         if (userPick.equals("potions") || userPick.equals("p")) {
