@@ -1,13 +1,17 @@
+import java.util.Random;
+
 public class Character{
-    private int health = 50;
+    private int health = 100;
     private int gold = 0;
     String heroName = "";
-    String heroWeapon = "Board Sword";
-    private int heroStrength = 18;
+    String heroWeapon = "Broadsword";
+    private int heroStrength = 0;
     ColorText color = new ColorText();
+    Random rand = new Random();
 
     public Character(String hero){
         this.heroName = hero;
+        this.heroStrength = strength();
     }
 
     public String getHeroName() {
@@ -35,6 +39,9 @@ public class Character{
         if(this.health >= 50){
             this.health = 50;
         }
+    }
+    private int strength(){
+        return this.heroStrength = rand.nextInt(25)+5;
     }
 
 

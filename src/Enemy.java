@@ -46,7 +46,7 @@ public class Enemy{
     }
 
     private int avgEnemyHealthRandom(){
-        return enemyHp = rand.nextInt(50)+10;
+        return enemyHp = rand.nextInt(60)+20;
     }
 
     private String avgWeapon(){
@@ -60,19 +60,19 @@ public class Enemy{
     private int weaponStrength(){
         switch (avgEnemyWeapon){
             case "Stick":
-                weaponsStrength = 10;
-                break;
-            case "Short Sword":
                 weaponsStrength = 15;
                 break;
+            case "Short Sword":
+                weaponsStrength = 20;
+                break;
             case "Long Sword":
-                weaponsStrength = 22;
+                weaponsStrength = 25;
                 break;
             case "Club":
-                weaponsStrength = 27;
+                weaponsStrength = 28;
                 break;
             case "Axe":
-                weaponsStrength = 20;
+                weaponsStrength = 23;
                 break;
         }
         return weaponsStrength;

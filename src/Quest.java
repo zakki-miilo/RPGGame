@@ -12,7 +12,7 @@ public class Quest {
         ColorText color = new ColorText();
         Scanner scan = new Scanner(System.in);
         System.out.println(color.TEXT_CYAN + "Welcome Player, to the world of Knight's Quest!"+ color.TEXT_RESET);
-        System.out.println(color.TEXT_CYAN+ "Are you ready to dive in?!"+ color.TEXT_RESET);
+        System.out.println(color.TEXT_CYAN+ "Whether you are ready or not. There is no turning back now..."+ color.TEXT_RESET);
         Thread.sleep(2000);
         story.intro();
         Thread.sleep(4000);
@@ -30,11 +30,11 @@ public class Quest {
         System.out.println("Th-th-thank you brave hero! There is... still hope. Here, this is 500G to aid you in this Journey! Please hurry!");
         Thread.sleep(3000);
         System.out.println(color.TEXT_YELLOW + "*The King Gives " + heroName + " 500G*" + color.TEXT_RESET);
-        Thread.sleep(3000);
+        Thread.sleep(1000);
         hero.setGold(500);
-        Thread.sleep(3000);
+        Thread.sleep(500);
         System.out.println("\"Please talk to the servants, check for clues. The culprit may have left something behind.\"");
-        Thread.sleep(2000);
+        Thread.sleep(1000);
         System.out.println(color.TEXT_PURPLE + "*Left the throne room*" + color.TEXT_RESET);
         Thread.sleep(1000);
         System.out.println("Where do you go?");
@@ -61,8 +61,8 @@ public class Quest {
                         System.out.println("\nIt has been hiding waiting to ambush the king." +
                                 "\nHere, this is all I can offer you as gratitude." +
                                 "\nThis is all so scary... Pl-pl-please head to th-the town centre. " +
-                                "\nThere you'll find supplies, potions and armours to aid you in this quest.\n");
-                        Thread.sleep(7000);
+                                "\nThere you'll find supplies, potions and armours to aid you in this quest.");
+                        Thread.sleep(8000);
                         battle.goldReward(hero, 5);
                         hero.goldInPocket();
                         break;
@@ -71,17 +71,37 @@ public class Quest {
                         chance++;
                     }
                 }while (chance < 2);
-                System.out.println("*Head To Town*");
-
+                System.out.println(color.TEXT_PURPLE+"*Head To Town*"+color.TEXT_RESET);
+                Thread.sleep(3000);
             } else if (answer.equals("town")) {
                 //go to town
-                System.out.println("In town");
+                System.out.println(color.TEXT_PURPLE+"*Head To Town*"+color.TEXT_RESET);
+                story.toTown();
             } else if (answer.equals("servant") || answer.equals("talk to servant")) {
                 //go to talk to servant
                 System.out.println("talking to servant");
             }
 
+            story.toTown();
+        Thread.sleep(5000);
+        System.out.println("What do you do?");
+        System.out.println(color.TEXT_BLUE + "| b: Blue's shop | v: Talk to Villagers | t: travel out of town |" + color.TEXT_RESET);
+        String decision = scan.nextLine().toLowerCase();
+        if (decision.equals("blue's shop") || decision.equals("b")) {
+            System.out.println("Welcome to Blue's Good and More. How can I help you today?");
+        } else if (decision.equals("Talk to Villagers") || decision.equals("v")) {
 
-
+            System.out.println("A elder man and woman are going about their business selling fish.");
+            System.out.println("*Approaching them...*");
+        } else if (decision.equals("travel") || decision.equals("t")){
+            System.out.println("Heading out of town");
+        }else {
+            System.out.println("This is not an option.");
+        }
     }
+
+
+
+
+
 }

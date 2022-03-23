@@ -24,8 +24,6 @@ public class Battle extends Character {
     }
 
     public void battleDeath(Character hero) throws InterruptedException {
-        //if(hero.getHealth() > 0 || orc1.getAvgEnemyHealth() > 0) {
-
             System.out.println("* BATTLE Begins *");
             Thread.sleep(4000);
             showHealth(hero);
@@ -34,10 +32,15 @@ public class Battle extends Character {
             showEnemyHp(orc1);
             System.out.println("*Orc is staring... with " + orc1.getAvgEnemyWeapon()+ " in hand*");
             Thread.sleep(3000);
-            coinFlip(coin, hero);
 
-            while (hero.getHealth() > 0 || orc1.getAvgEnemyHealth() > 0) {
-                if(coin == 1){
+            coinFlip(coin, hero);
+            if (orc1.getAvgEnemyHealth() == 0) {
+                orc1.isDead();
+                goldReward(hero, 5);
+                Thread.sleep(3000);
+            }else {
+                while (hero.getHealth() > 0 || orc1.getAvgEnemyHealth() > 0) {
+                    if(coin == 1){
                         enemyBattle(hero);
 
                         heroBattle(hero);
@@ -47,19 +50,22 @@ public class Battle extends Character {
                             Thread.sleep(3000);
                             break;
                         }
-                }else {
-                    heroBattle(hero);
-                    if(orc1.getAvgEnemyHealth() == 0){
-                        orc1.isDead();
-                        Thread.sleep(3000);
-                        goldReward(hero, 5);
-                        break;
+                    }else {
+                        heroBattle(hero);
+                        if(orc1.getAvgEnemyHealth() == 0){
+                            orc1.isDead();
+                            Thread.sleep(3000);
+                            goldReward(hero, 5);
+                            break;
 
-                    }else{
-                        enemyBattle(hero);
+                        }else{
+                            enemyBattle(hero);
+                        }
                     }
                 }
             }
+
+
 
     }
 
@@ -95,7 +101,7 @@ public class Battle extends Character {
                 showHealth(hero);
                 Thread.sleep(3000);
             }else if(reply.equals("attack")|| reply.equals("a")){
-                if (fate <= 3) {
+                if (fate <= 0) { //testing number 0, change back to 3 later
                     heroMissedAtt(hero);
                     Thread.sleep(2000);
                 } else {
