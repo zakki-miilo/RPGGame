@@ -2,21 +2,25 @@ import java.util.Random;
 
 public class Enemy{
     private int enemyHp;
-    private String avgEnemyWeapon;
+    private String weaponType;
     private int weaponsStrength;
-    private String name = "";
-    private String enemyType;
-    ColorText color = new ColorText();
-
+    private final String enemyType;
     Random rand = new Random();
 
-    public Enemy(){
+    public Enemy(String type){
         this.enemyHp = avgEnemyHealthRandom();
-        this.avgEnemyWeapon = avgWeapon();
+        this.weaponType = weapon();
         this.weaponsStrength = weaponStrength();
-        this.enemyType = "Orc";
+        this.enemyType = type;
 
     }
+/*
+    private String types(){
+        String[] types = {"WEAK ORC", "WARRIOR ORC", "WOLF", "BANDIT"};
+        int enemyType = rand.nextInt(3);
+        String t = types[enemyType];
+        return t;
+    }*/
 
     public String getEnemyType() {
         return enemyType;
@@ -30,15 +34,19 @@ public class Enemy{
         this.weaponsStrength = weaponsStrength;
     }
 
-    public String getAvgEnemyWeapon() {
-        return avgEnemyWeapon;
+    public String weaponType() {
+        return weaponType;
     }
 
     public int getAvgEnemyHealth() {
         return enemyHp;
     }
 
-    public void setAvgEnemyHealth(int heroDamage) {
+    public void setEnemyHp(int enemyHp) {
+        this.enemyHp = enemyHp;
+    }
+
+    public void setDamagedTaken(int heroDamage) {
         this.enemyHp = this.enemyHp - heroDamage;
         if(this.enemyHp < 0){
             this.enemyHp = 0;
@@ -46,19 +54,19 @@ public class Enemy{
     }
 
     private int avgEnemyHealthRandom(){
-        return enemyHp = rand.nextInt(60)+30;
+        return enemyHp = rand.nextInt(60)+15;
     }
 
-    private String avgWeapon(){
+    private String weapon(){
         String[] weapons = {"Stick", "Short Sword", "Long Sword", "Club", "Axe"};
 
-        avgEnemyWeapon = weapons[rand.nextInt(weapons.length)];
+        weaponType = weapons[rand.nextInt(weapons.length)];
 
-        return avgEnemyWeapon;
+        return weaponType;
     }
 
     private int weaponStrength(){
-        switch (avgEnemyWeapon){
+        switch (weaponType){
             case "Stick":
                 weaponsStrength = 15;
                 break;
@@ -79,17 +87,10 @@ public class Enemy{
     }
 
     public void isDead(){
-        System.out.println(color.TEXT_RED + "______________"+ color.TEXT_RESET);
-        System.out.println(color.TEXT_RED + "|Orc is Dead!|"+ color.TEXT_RESET+ " ~Loot " + getEnemyType());
-        System.out.println(color.TEXT_RED + "--------------"+ color.TEXT_RESET);
+        System.out.println(ColorText.TEXT_RED + "______________"+ ColorText.TEXT_RESET);
+        System.out.println(ColorText.TEXT_RED + "|" + enemyType + " is Dead!|"+ ColorText.TEXT_RESET+ " ~Loot " + getEnemyType());
+        System.out.println(ColorText.TEXT_RED + "--------------"+ ColorText.TEXT_RESET);
 
     }
 
-    @Override
-    public String toString() {
-        return "Enemy: " + this.name + "\n"+
-                "|Health : " + enemyHp +
-                "| Weapon: " + avgEnemyWeapon +
-                "| Weapon's Strength: " + weaponsStrength ;
-    }
 }

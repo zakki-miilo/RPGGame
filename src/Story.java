@@ -7,13 +7,13 @@ public class Story {
         FileReader fr = new FileReader(input);
         BufferedReader inputS = new BufferedReader(fr);
         try {
-            String line = null;
+            String line;
             while ((line = inputS.readLine())!=null) {
                 System.out.println(line);
             }
             inputS.close();
         } catch (IOException e) {
-            System.out.println("File not found");;
+            System.out.println("File not found");
         }
     }
 
@@ -21,13 +21,13 @@ public class Story {
         FileReader fr = new FileReader(town);
         BufferedReader inputS = new BufferedReader(fr);
         try {
-            String line = "";
+            String line;
             while ((line = inputS.readLine())!= null) {
                 System.out.println(line);
             }
             inputS.close();
         } catch (IOException e) {
-            System.out.println("File not found");;
+            System.out.println("File not found");
         }
     }
 

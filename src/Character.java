@@ -3,10 +3,9 @@ import java.util.Random;
 public class Character{
     private int health = 100;
     private int gold = 0;
-    String heroName = "";
+    String heroName;
     String heroWeapon = "Broadsword";
-    private int heroStrength = 0;
-    ColorText color = new ColorText();
+    private int heroStrength;
     Random rand = new Random();
 
     public Character(String hero){
@@ -22,7 +21,6 @@ public class Character{
         return gold;
     }
 
-
     public int getHealth() {
         return health;
     }
@@ -36,8 +34,8 @@ public class Character{
 
     public void healing(int potion){
         this.health += potion;
-        if(this.health >= 50){
-            this.health = 50;
+        if(this.health >= 100){
+            this.health = 100;
         }
     }
     private int strength(){
@@ -52,14 +50,17 @@ public class Character{
     public void setGold(int gold) {
         this.gold += gold;
     }
+    public void withdrawGold(int gold){
+        this.gold -= gold;
+    }
 
     public void gameOver(){
-            System.out.println(color.TEXT_PURPLE + "| Game Over! You died |"+ color.TEXT_RESET);
+            System.out.println(ColorText.TEXT_PURPLE + "| Game Over! You died |"+ ColorText.TEXT_RESET);
             System.exit(0);
     }
 
     public void goldInPocket(){
-        System.out.println(color.TEXT_YELLOW+"[ GOLD in Pocket: "+this.gold+" ]"+color.TEXT_RESET);
+        System.out.println(ColorText.TEXT_YELLOW+"[ GOLD in Pocket: "+this.gold+" ]"+ColorText.TEXT_RESET);
     }
 
 

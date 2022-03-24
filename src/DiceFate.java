@@ -1,13 +1,13 @@
 import java.util.Random;
 
 public class DiceFate extends Quest{
+    Random rand = new Random();
     public int randomDice(){
-        Random rand = new Random();
-
-        int i = rand.nextInt(6) + 1;
-
-
-        return i;
-
+        return rand.nextInt(6) + 1;
     }
+
 }
+
+
+
+
