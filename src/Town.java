@@ -78,7 +78,7 @@ public class Town {
         } while (!decision.equals("f"));
 
 
-        System.out.println(ColorText.TEXT_PURPLE + "*Retrieving Garr the horse from the Saddle house*" + ColorText.TEXT_RESET);
+        System.out.println(ColorText.TEXT_PURPLE + "*Retrieving Garr the horse from the stable*" + ColorText.TEXT_RESET);
         System.out.println(ColorText.TEXT_PURPLE + "*Leaving Town*" + ColorText.TEXT_RESET);
     }
 
@@ -137,10 +137,10 @@ public class Town {
             case "d":
             case "don't pay":
                 notBuy = true;
-
                 break;
             default:
-                System.out.println("Sorry that's not an option");
+                System.out.println("That's not an option.");
+                notBuy = true;
         }
 
     }

@@ -4,7 +4,7 @@ public class Enemy{
     private int enemyHp;
     private String weaponType;
     private int weaponsStrength;
-    private final String enemyType;
+    private String enemyType;
     Random rand = new Random();
 
     public Enemy(String type){
@@ -14,13 +14,8 @@ public class Enemy{
         this.enemyType = type;
 
     }
-/*
-    private String types(){
-        String[] types = {"WEAK ORC", "WARRIOR ORC", "WOLF", "BANDIT"};
-        int enemyType = rand.nextInt(3);
-        String t = types[enemyType];
-        return t;
-    }*/
+    public Enemy(){};
+
 
     public String getEnemyType() {
         return enemyType;
