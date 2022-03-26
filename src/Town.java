@@ -47,14 +47,16 @@ public class Town {
                 case "pub":
                     System.out.println(ColorText.TEXT_PURPLE + "*Heading to pub*" + ColorText.TEXT_RESET);
 
-                    System.out.println("The smell of brew, the laugher of worryless. Many customers already crowding the floor at this" +
-                            " time of the day.\nYou walk up to the counter. The bartender spots you and comes over.\n" +
+                    System.out.println("The smell of brew, the laughter of joy and fun hits you as you enter the cabin.\n" +
+                            "Many customers filling up most of the tables even at " +
+                            "this time of the day.\nYou walk up to the counter. The bartender spots you and comes over.\n" +
                             "\"What can I do for ya? A cold brew beer? only 7G\"");
                     buying(hero, 7);
                     if(!notBuy){
                         hero.healing(100);
                         System.out.println(ColorText.TEXT_GREEN + "*FULLY Heal*" + ColorText.TEXT_RESET);
                         System.out.println(ColorText.TEXT_GREEN + hero.getHeroName()+ " HP: " + hero.getHealth()+ ColorText.TEXT_RESET);
+                        System.out.println("Thanks for stopping by. Come again anytime.");
                     }else {
                         System.out.println("A'ite, if there isn't anything else, ya have a good day now.");
                         System.out.println(ColorText.TEXT_PURPLE + "*Bartender left to go serve another customer who just walked in*" + ColorText.TEXT_RESET);

@@ -15,7 +15,7 @@ public class Shop {
     int torch = 1;
     boolean stockIsZero = false;
     Town town = new Town();
-    boolean notBuy = false;
+    boolean notBuyItem = false;
 
     String[] products = {"p: Potions", "b: Breads", "t: torch", "c: Camping Tent", "s: Sandwich",
             "l: Light Armour", "w: Wooden Shield","g: Great Sword"};
@@ -44,8 +44,10 @@ public class Shop {
                     int isAmount = amount(potions, "potion", hero);
                     if(isAmount != 0){
                         checkingBuyOrNot(hero, isAmount, 15);
-                        potions = itemToInventory("potion", potions, isAmount);
-                        displayPurchase(isAmount, potions, "potion");
+                        if(!notBuyItem){
+                            potions = itemToInventory("potion", potions, isAmount);
+                            displayPurchase(isAmount, potions, "potion");
+                        }
                         if (potions <= 0) {
                             stockIsZero = true;
                         }
@@ -60,8 +62,10 @@ public class Shop {
                     int isAmount = amount(breads, "bread", hero);
                     if(isAmount != 0){
                         checkingBuyOrNot(hero, isAmount, 5.6);
-                        breads = itemToInventory("bread", breads, isAmount);
-                        displayPurchase(isAmount, breads, "bread");
+                        if(!notBuyItem){
+                            breads = itemToInventory("bread", breads, isAmount);
+                            displayPurchase(isAmount, breads, "bread");
+                        }
                         if (breads <= 0) {
                             stockIsZero = true;
                         }
@@ -76,8 +80,10 @@ public class Shop {
                     int isAmount = amount(torch, "torch", hero);
                     if(isAmount != 0){
                         checkingBuyOrNot(hero, isAmount, 9);
-                        torch = itemToInventory("torch", torch, isAmount);
-                        displayPurchase(isAmount, torch, "torch");
+                        if(!notBuyItem){
+                            torch = itemToInventory("torch", torch, isAmount);
+                            displayPurchase(isAmount, torch, "torch");
+                        }
                         if (torch <= 0) {
                             stockIsZero = true;
                         }
@@ -92,8 +98,10 @@ public class Shop {
                     int isAmount = amount(sandwich, "sandwich", hero);
                     if(isAmount != 0){
                         checkingBuyOrNot(hero, isAmount, 9);
-                        sandwich = itemToInventory("sandwich", sandwich, isAmount);
-                        displayPurchase(isAmount, sandwich, "sandwich");
+                        if(!notBuyItem){
+                            sandwich = itemToInventory("sandwich", sandwich, isAmount);
+                            displayPurchase(isAmount, sandwich, "sandwich");
+                        }
                         if (sandwich <= 0) {
                             stockIsZero = true;
                         }
@@ -107,8 +115,10 @@ public class Shop {
                     int isAmount = amount(campingTent, "camping tent", hero);
                     if(isAmount != 0){
                         checkingBuyOrNot(hero, isAmount, 65);
-                        campingTent = itemToInventory("camping tent", campingTent, isAmount);
-                        displayPurchase(isAmount, campingTent, "camping tent");
+                        if(!notBuyItem){
+                            campingTent = itemToInventory("camping tent", campingTent, isAmount);
+                            displayPurchase(isAmount, campingTent, "camping tent");
+                        }
                         if (campingTent <= 0) {
                             stockIsZero = true;
                         }
@@ -122,9 +132,11 @@ public class Shop {
                     int isAmount = amount(lightArmour, "light armour", hero);
                     if(isAmount != 0){
                         checkingBuyOrNot(hero, isAmount, 90);
-                        lightArmour = itemToInventory("light armour", lightArmour, isAmount);
-                        displayPurchase(isAmount, lightArmour, "light armour");
-                        equipArmour(enemy);
+                        if(!notBuyItem){
+                            lightArmour = itemToInventory("light armour", lightArmour, isAmount);
+                            displayPurchase(isAmount, lightArmour, "light armour");
+                            equipArmour(enemy);
+                        }
                         if (lightArmour <= 0) {
                             stockIsZero = true;
                         }
@@ -138,9 +150,11 @@ public class Shop {
                     int isAmount = amount(greatSword, "great sword", hero);
                     if(isAmount != 0){
                         checkingBuyOrNot(hero, isAmount, 95);
-                        greatSword = itemToInventory("great sword", greatSword, isAmount);
-                        displayPurchase(isAmount, greatSword, "great sword");
-                        equipWeapon(hero);
+                        if(!notBuyItem){
+                            greatSword = itemToInventory("great sword", greatSword, isAmount);
+                            displayPurchase(isAmount, greatSword, "great sword");
+                            equipWeapon(hero);
+                        }
                         if (greatSword <= 0) {
                             stockIsZero = true;
                         }
@@ -154,8 +168,10 @@ public class Shop {
                     int isAmount = amount(woodenShield, "wooden shield", hero);
                     if(isAmount != 0){
                         checkingBuyOrNot(hero, isAmount, 30);
-                        woodenShield = itemToInventory( "wooden shield", woodenShield, isAmount);
-                        displayPurchase(isAmount, woodenShield, "wooden shield");
+                        if(!notBuyItem){
+                            woodenShield = itemToInventory( "wooden shield", woodenShield, isAmount);
+                            displayPurchase(isAmount, woodenShield, "wooden shield");
+                        }
                         if (woodenShield <= 0) {
                             stockIsZero = true;
                         }
@@ -179,7 +195,7 @@ public class Shop {
     public void equipArmour(Enemy enemy){
         if(inventory.contains("light armour")){
             enemy.weaponStrengthDecrease(8);
-            System.out.println("armour equipped + 8 Defence.");
+            System.out.println("Take armour from inventory and equip it: + 8 Defence.");
             inventory.remove("light armour");
         }
     }
@@ -187,7 +203,7 @@ public class Shop {
         Random rand = new Random();
         if(inventory.contains("great sword")){
             hero.heroWeapon = "Great Sword";
-            System.out.println("Great Sword is equipped. +10 damage");
+            System.out.println("Take Great Sword from inventory and equip it: +10 damage");
             hero.setHeroWeaponStrength(27);
             inventory.remove("great sword");
         }
@@ -196,7 +212,7 @@ public class Shop {
     public void checkingBuyOrNot(Character hero, int isAmount, double price){
         double totalPrice = isAmount * price;
         decisionToBuy(hero, totalPrice);
-      if(notBuy){
+      if(notBuyItem){
           System.out.println("Oh... you changed your mind...");}
     }
 
@@ -220,11 +236,11 @@ public class Shop {
                 System.out.println(ColorText.TEXT_YELLOW + "-" + displayPrice + "G" + ColorText.TEXT_RESET);
                 hero.withdrawGold(totalPrice);
                 System.out.println("In pocket :" + hero.getGold());
-                notBuy = false;
+                notBuyItem = false;
                 break;
             case "d":
             case "don't pay":
-                notBuy = true;
+                notBuyItem = true;
                 break;
             default:
                 System.out.println("Sorry that's not an option");
@@ -242,13 +258,14 @@ public class Shop {
     }
 
     public int amount(int item, String product, Character hero){
-        int amount;
-        System.out.println("How many would you like?");
-        while (!scanAmount.hasNextInt()) {
-            System.out.println("That's not a number. Try again!");
-            scanAmount.next();
-        }
-        amount = scanAmount.nextInt();
+        int amount = item;
+        if(item != 1){
+            System.out.println("How many would you like?");
+            while (!scanAmount.hasNextInt()) {
+                System.out.println("That's not a number. Try again!");
+                scanAmount.next();
+            }
+            amount = scanAmount.nextInt();
 
             if (amount > item) {
                 System.out.println("Sorry we don't have that much in stock..." +
@@ -256,7 +273,9 @@ public class Shop {
                 System.out.println(product + " Left: " + item);
                 amount = 0;
             }
-            return amount;
+        }
+        return amount;
+
     }
 
     public int itemToInventory(String product, int item, int amount){

@@ -12,7 +12,7 @@ class Orc implements Types{
 
     @Override
     public  void attack2(Enemy enemy) {
-        System.out.println(ColorText.TEXT_RED + "Orc does a Jumps attack with it's " + enemy.weaponType()+ColorText.TEXT_RESET);
+        System.out.println(ColorText.TEXT_RED + "Orc jumps high in the air and attacks with it's " + enemy.weaponType()+ColorText.TEXT_RESET);
     }
 
     @Override
