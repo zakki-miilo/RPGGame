@@ -8,12 +8,12 @@ public class Inventory {
     int rocks;
 
 
-
     public Inventory(){
         this.potions = 3;
         this.rocks = 5;
-
     }
+
+    //TODO: retrieve the arraylist from shop and count how many of the same items are in there. then add that to here.
 
     public void stock(Character hero){
         Battle battle = new Battle(hero);
@@ -48,7 +48,7 @@ public class Inventory {
                 break;
             case "back":
             case "b":
-                battle.heroBattle(hero, enemy);
+                battle.heroBattle(hero, enemy, battle.shop);
                 break;
             default:
                 System.out.println("Cannot do that...Times up. Enemy is coming!");

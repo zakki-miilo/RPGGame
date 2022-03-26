@@ -13,7 +13,9 @@ public class Town {
         String decision;
         do {
             System.out.println(ColorText.TEXT_BLUE +ColorText.GLASS_BG + "| a: Blue's shop | s: Talk to Villagers | d: Head to pub | f: leave town |" + ColorText.RESET_BG+ ColorText.TEXT_RESET);
+
             decision = scan.nextLine().toLowerCase();
+
             switch (decision) {
                 case "blue's shop":
                 case "a":
@@ -23,7 +25,7 @@ public class Town {
                             "you look exhausted and needing a good rest. If you fight a monster\n" +
                             "and don't rest, your health will not recover.");
                     shop.inShop();
-                    shop.buyingItems(hero);
+                    shop.buyingItems(hero, enemy);
                     break;
                 case "talk to villagers":
                 case "s":
@@ -90,32 +92,7 @@ public class Town {
                     System.out.println("Sorry then aye, I cannot help you... information are valuable these days.");
 
                 }else {
-                    System.out.println("\nThanks aye, have you heard the Orcs and bandits are starting to get restless these days. Do you know those horrible\n" +
-                            "Orcs are still around...hiding in the shadows and wrecking havoc during this peace.\n" +
-                            "They have even ruined one of my fishing spot and stole all the fish, they did aye...\n" +
-                            "its said they are dwelling deep in the mountains. They are up to something, I can feel it in me bones." +
-                            "\nAye, say you help an old man out. Do you mind going and check'n the fishing area and getting rid of anything" +
-                            "\nthere you see? I will pay you greatly, wat aye say..");
-                        System.out.println(ColorText.TEXT_CYAN + "Do you accept quest?"+ ColorText.TEXT_RESET);
-                    System.out.println(ColorText.TEXT_CYAN + ColorText.GLASS_BG + " a: Yes | d: No " + ColorText.RESET_BG + ColorText.TEXT_RESET);
-                    decision = scan.nextLine().toLowerCase();
-                    switch (decision){
-                            case "a":
-                            case "yes":
-                                System.out.println("Thank you, thank you. Here I will show you the path towards the area on the map.\n");
-                                battle.battleDeath(hero, enemy);
-                                System.out.println("You're back already! yo-you defeated the creatures that were there? Truly Amazing, Great Hero!\n" +
-                                        "Here's your reward.");
-                                hero.goldReward();
-                                hero.goldInPocket();
-                                //System.out.println("\n");
-                                break;
-                            default:
-                                System.out.println("Ah...I see, busy are we. Fair enough. Another day maybe...");
-                                break;
-                        }
-
-
+                    fishermanQuest(hero, enemy, battle);
                 }
                 break;
             case "troubles":
@@ -144,7 +121,7 @@ public class Town {
 
     public void buying(Character hero, double price) {
         String displayPrice = String.format("%.2f", price);
-        System.out.println(ColorText.TEXT_BLUE + ColorText.GLASS_BG +"| a: Pay " + displayPrice + "G | d: Don't pay" + ColorText.RESET_BG+ ColorText.TEXT_RESET);
+        System.out.println(ColorText.TEXT_BLUE + ColorText.GLASS_BG +"| a: Pay " + displayPrice + "G | d: Don't pay |" + ColorText.RESET_BG+ ColorText.TEXT_RESET);
         String decision = scan.nextLine();
         switch (decision) {
             case "a":
@@ -165,4 +142,42 @@ public class Town {
         }
 
     }
+
+    public void fishermanQuest(Character hero, Enemy enemy, Battle battle) throws InterruptedException {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("-------------------------");
+        System.out.println("Thanks aye, heard the Orcs and bandits are feeling\n" +
+                "restless these days. Thee horrible " +
+                "Orcs are still living...hiding in the shadows and wrecking havoc n' everything!\n" +
+                "ruined one of me fishing spot, stoling all me fishes, they did aye...\n" +
+                "heard them dwelling deep in mountains...up to something, feel it in me bones.");
+        System.out.println(ColorText.TEXT_PURPLE + "*Suddenly the fisherman had an idea*"+ ColorText.TEXT_RESET);
+        System.out.println("Aye, say ya help an old man out. Mind going and check'n the fishing area and getting rid of anything" +
+                "\nthere ya see? will pay ya greatly, wat aye say..");
+        System.out.println(ColorText.TEXT_CYAN + "Do you accept quest?"+ ColorText.TEXT_RESET);
+        System.out.println(ColorText.TEXT_CYAN + ColorText.GLASS_BG + " a: Yes | d: No " + ColorText.RESET_BG + ColorText.TEXT_RESET);
+        String decision = scan.nextLine().toLowerCase();
+        switch (decision){
+            case "a":
+            case "yes":
+                System.out.println("Thankss...you do an old man great favour, you arr. Here show ya area on map.");
+                System.out.println(ColorText.TEXT_PURPLE + "*The fisherman draws on your map...*"+ ColorText.TEXT_RESET);
+                System.out.println("alrite. ain't about half a day on horse to the south aye.");
+                System.out.println(ColorText.TEXT_PURPLE + "*You go to the saddle house and retrieve your horse, Garr.*\n"+ ColorText.TEXT_RESET);
+                battle.battleDeath(hero, enemy);
+                System.out.println(ColorText.TEXT_PURPLE + "*After clearing the fishing spot you return to the fisherman*\n"+ ColorText.TEXT_RESET);
+                System.out.println("Yo-you're back already aye! defeated all the creatures that were there? ain't you something, Great Hero!\n" +
+                        "Here's your reward.");
+                hero.goldReward();
+                hero.goldInPocket();
+                //System.out.println("\n");
+                break;
+            default:
+                System.out.println("Ah...say no more, busy are we. Fair is fair. Another day maybe...");
+                break;
+        }
+
+
+    }
+
 }

@@ -4,8 +4,8 @@ import java.io.*;
 
 public class Quest {
 
-
     public static void main(String[] args) throws FileNotFoundException, InterruptedException {
+        int princessRoomCount = 0;
         String heroName;
         String answer;
         Enemy orc = new Enemy("Orc");
@@ -52,6 +52,11 @@ public class Quest {
                 case "room":
                 case "princess's room":
                 case "a":
+                    if(princessRoomCount ==1){
+                        System.out.println("There's nothing in the room...");
+                        break;
+                    }
+
                     System.out.println(ColorText.TEXT_CYAN + "*Walks into room...Crack!*" + ColorText.TEXT_RESET);
                     System.out.println("\"What was that...?\"");
 
@@ -75,11 +80,13 @@ public class Quest {
                             //Thread.sleep(8000);
                             hero.goldReward();
                             hero.goldInPocket();
+                            princessRoomCount ++;
                             break;
                         } else {
                             System.out.println("Nothing is there...");
                             chance++;
                         }
+                        princessRoomCount++;
                     } while (chance < 2);
                     //Thread.sleep(3000);
                     break;

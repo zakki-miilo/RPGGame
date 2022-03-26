@@ -18,6 +18,7 @@ public class Battle{
     boolean shield = false;
     int critChance;
     int resetEnemyHP;
+    Shop shop = new Shop();
 
     public Battle(Character hero) {
         this.hero = hero.heroName;
@@ -33,7 +34,10 @@ public class Battle{
 
     public void battleDeath(Character hero, Enemy enemy) throws InterruptedException {
             battleStart(hero, enemy);
+            System.out.println(enemy.weaponType() +": "+ enemy.getWeaponsStrength()); //for testing
+            System.out.println(hero.heroWeapon + " : " + hero.getHeroStrength()); //for testing
             coinFlip(coin,hero, enemy);
+            coin = 2; //for testing purposes. delete after.
             resetEnemyHP = enemy.getAvgEnemyHealth();
             if (enemy.getAvgEnemyHealth() == 0) {
                 enemy.isDead();
@@ -41,6 +45,8 @@ public class Battle{
                 //Thread.sleep(3000);
             }else {
                 while (hero.getHealth() > 0 || enemy.getAvgEnemyHealth() > 0) {
+                    System.out.println(enemy.weaponType() +": "+ enemy.getWeaponsStrength()); // for testiing
+                    System.out.println(hero.heroWeapon + " : " + hero.getHeroStrength()); // for testing
                     if(coin == 1){ //change back to 1
                         enemyBattle(hero, enemy);
                         if (enemy.getAvgEnemyHealth() == 0) {
@@ -48,17 +54,18 @@ public class Battle{
                             hero.goldReward();
                             break;
                         }else {
-                            heroBattle(hero, enemy);
+                            heroBattle(hero, enemy,shop);
                         }
                     }else {
-                        heroBattle(hero, enemy);
+                        heroBattle(hero, enemy,shop);
                         if(enemy.getAvgEnemyHealth() == 0) {
                             enemy.isDead();
                             hero.goldReward();
                             break;
-                        }else{
-                            enemyBattle(hero, enemy);
                         }
+                            enemyBattle(hero, enemy);
+
+
                     }
                 }
             }
@@ -68,6 +75,7 @@ public class Battle{
     private int coin(){
         return coin = rand.nextInt(2);
     }
+
     private int roll(){
         return roll = rand.nextInt(3);
     }
@@ -77,7 +85,7 @@ public class Battle{
             System.out.println("---------------------------");
             System.out.println(ColorText.TEXT_PURPLE + "Hero starts"+ ColorText.TEXT_RESET);
 
-            heroBattle(hero, enemy);
+            heroBattle(hero, enemy, shop);
         }else {
             System.out.println("---------------------------");
             System.out.println(ColorText.TEXT_PURPLE + enemy.getEnemyType() +" starts"+ ColorText.TEXT_RESET);
@@ -127,9 +135,8 @@ public class Battle{
 
     }
 
-    public void heroBattle(Character hero, Enemy enemy) throws InterruptedException {
-
-            fate = fateBattle.randomDice();
+    public void heroBattle(Character hero, Enemy enemy, Shop shop) throws InterruptedException {
+        fate = fateBattle.randomDice();
             System.out.println("__________________________");
             System.out.println("What do you do?");
             System.out.println(ColorText.TEXT_CYAN +ColorText.GLASS_BG+ " a: Attack | d: Defend | i: Inventory "+ColorText.RESET_BG+ColorText.TEXT_RESET);
@@ -224,37 +231,34 @@ public class Battle{
 
     private void battleStart(Character hero,Enemy enemy) throws InterruptedException {
         System.out.println(ColorText.TEXT_RED +ColorText.GLASS_BG+" »-(¯`·.·´¯)->BATTLE Begins" +
-                "<-(¯`·.·´¯)-«   "+ColorText.RESET_BG+ColorText.TEXT_RESET);
+                "<-(¯`·.·´¯)-«   \n"+ColorText.RESET_BG+ColorText.TEXT_RESET);
         //Thread.sleep(4000);
         showHealth(hero);
         System.out.println("*You pull out a " + hero.heroWeapon + "*");
         //Thread.sleep(3000);
         showEnemyHp(enemy);
         idling(enemy);
-        //System.out.println(enemy.getEnemyType()+ " is staring... with " + enemy.weaponType()+ " in hand*");
-        //Thread.sleep(3000);
+
     }
 
     private void idling(Enemy enemy){
         switch (enemy.getEnemyType()){
             case "Orc":
-                System.out.println("__________________________");
                 orc.idle();
                 break;
             case "Wolf":
-                System.out.println("__________________________");
                 wolf.idle();
                 break;
         }
     }
 
     public void showHealth(Character hero){
-        System.out.println(ColorText.TEXT_BLUE + "|| " + hero.heroName + " | HP: " + hero.getHealth() + " ||" + ColorText.TEXT_RESET);
+        System.out.println(ColorText.TEXT_BLUE + ColorText.GLASS_BG +"|| " + hero.heroName + " | HP: " + hero.getHealth() + " ||"+ ColorText.RESET_BG + ColorText.TEXT_RESET);
     }
 
     private void showEnemyHp(Enemy enemy){
-        System.out.println(ColorText.TEXT_GREEN + "|| " + enemy.getEnemyType()+ " | HP: " +  enemy.getAvgEnemyHealth()+ " ||" +  ColorText.TEXT_RESET);
-        System.out.println("__________________________");
+        System.out.println(ColorText.TEXT_GREEN +ColorText.GLASS_BG + "|| " + enemy.getEnemyType()+ " | HP: "  +  enemy.getAvgEnemyHealth()+ " ||" + ColorText.RESET_BG+  ColorText.TEXT_RESET);
+
     }
 
 

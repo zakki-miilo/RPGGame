@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Shop {
@@ -23,9 +24,10 @@ public class Shop {
     ArrayList<String> inventory = new ArrayList<>();
 
     public void inShop(){
+
         }
 
-    public void buyingItems(Character hero){
+    public void buyingItems(Character hero, Enemy enemy){
         Scanner scan = new Scanner(System.in);
         System.out.println(ColorText.TEXT_PURPLE + "What do fancy today?" + ColorText.TEXT_RESET);
         String player;
@@ -122,6 +124,7 @@ public class Shop {
                         checkingBuyOrNot(hero, isAmount, 90);
                         lightArmour = itemToInventory("light armour", lightArmour, isAmount);
                         displayPurchase(isAmount, lightArmour, "light armour");
+                        equipArmour(enemy);
                         if (lightArmour <= 0) {
                             stockIsZero = true;
                         }
@@ -137,6 +140,7 @@ public class Shop {
                         checkingBuyOrNot(hero, isAmount, 95);
                         greatSword = itemToInventory("great sword", greatSword, isAmount);
                         displayPurchase(isAmount, greatSword, "great sword");
+                        equipWeapon(hero);
                         if (greatSword <= 0) {
                             stockIsZero = true;
                         }
@@ -167,9 +171,26 @@ public class Shop {
         }
             if (!player.equals("f")) {
                 System.out.println(ColorText.TEXT_BLUE + "Would you like anything else? |f: exit |" + ColorText.TEXT_RESET);
-                //printBox(products,cost,stocks);
+
             }
         } while (!player.equals("f"));
+    }
+
+    public void equipArmour(Enemy enemy){
+        if(inventory.contains("light armour")){
+            enemy.weaponStrengthDecrease(8);
+            System.out.println("armour equipped + 8 Defence.");
+            inventory.remove("light armour");
+        }
+    }
+    public void equipWeapon(Character hero){
+        Random rand = new Random();
+        if(inventory.contains("great sword")){
+            hero.heroWeapon = "Great Sword";
+            System.out.println("Great Sword is equipped. +10 damage");
+            hero.setHeroWeaponStrength(27);
+            inventory.remove("great sword");
+        }
     }
 
     public void checkingBuyOrNot(Character hero, int isAmount, double price){

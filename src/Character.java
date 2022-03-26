@@ -4,14 +4,17 @@ public class Character{
     private int health = 100;
     private double gold = 0.0;
     String heroName;
-    String heroWeapon = "Broadsword";
-    private int heroStrength;
+    String heroWeapon = "";
+    private int heroWeaponStrength;
     Random rand = new Random();
+
+
 
 
     public Character(String hero){
         this.heroName = hero;
-        this.heroStrength = strength();
+        this.heroWeapon = "Broadsword";
+        this.heroWeaponStrength = heroWeaponStrength();
     }
 
     public String getHeroName() {
@@ -39,13 +42,16 @@ public class Character{
             this.health = 100;
         }
     }
-    private int strength(){
-        return this.heroStrength = rand.nextInt(25);
+    private int heroWeaponStrength(){
+        return heroWeaponStrength = 18;
     }
 
+    public void setHeroWeaponStrength(int heroWeaponStrength) {
+        this.heroWeaponStrength = heroWeaponStrength;
+    }
 
     public int getHeroStrength() {
-        return heroStrength;
+        return heroWeaponStrength;
     }
 
     public void setGold(int gold) {

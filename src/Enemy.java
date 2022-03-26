@@ -34,6 +34,10 @@ public class Enemy{
         this.weaponsStrength = weaponsStrength;
     }
 
+    public void weaponStrengthDecrease(int armour){
+        this.weaponsStrength -= armour;
+    }
+
     public String weaponType() {
         return weaponType;
     }
@@ -54,7 +58,7 @@ public class Enemy{
     }
 
     private int avgEnemyHealthRandom(){
-        return enemyHp = rand.nextInt(60)+15;
+        return enemyHp = rand.nextInt(70-45)+45;
     }
 
     private String weapon(){
