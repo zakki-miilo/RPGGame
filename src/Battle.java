@@ -41,7 +41,7 @@ public class Battle{
             resetEnemyHP = enemy.getAvgEnemyHealth();
             if (enemy.getAvgEnemyHealth() == 0) {
                 enemy.isDead();
-                hero.goldReward();
+                hero.goldReward(5);
                 //Thread.sleep(3000);
             }else {
                 while (hero.getHealth() > 0 || enemy.getAvgEnemyHealth() > 0) {
@@ -51,7 +51,7 @@ public class Battle{
                         enemyBattle(hero, enemy);
                         if (enemy.getAvgEnemyHealth() == 0) {
                             enemy.isDead();
-                            hero.goldReward();
+                            hero.goldReward(5);
                             break;
                         }else {
                             heroBattle(hero, enemy,shop);
@@ -60,7 +60,7 @@ public class Battle{
                         heroBattle(hero, enemy,shop);
                         if(enemy.getAvgEnemyHealth() == 0) {
                             enemy.isDead();
-                            hero.goldReward();
+                            hero.goldReward(5);
                             break;
                         }
                             enemyBattle(hero, enemy);

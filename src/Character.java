@@ -60,9 +60,9 @@ public class Character{
     public void withdrawGold(double gold){
         this.gold -= gold;
     }
-    public void goldReward(){
+    public void goldReward(int reward){
         int gold = rand.nextInt(20)+5;
-
+        gold = gold + reward;
         this.setGold(gold);
         System.out.println(ColorText.TEXT_YELLOW + "| +"+ gold +"G |" + ColorText.TEXT_RESET);
     }

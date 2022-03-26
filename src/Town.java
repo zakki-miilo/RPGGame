@@ -170,7 +170,7 @@ public class Town {
                 System.out.println(ColorText.TEXT_PURPLE + "*After clearing the fishing spot you return to the fisherman*\n"+ ColorText.TEXT_RESET);
                 System.out.println("Yo-you're back already aye! defeated all the creatures that were there? ain't you something, Great Hero!\n" +
                         "Here's your reward.");
-                hero.goldReward();
+                hero.goldReward(10);
                 hero.goldInPocket();
                 //System.out.println("\n");
                 break;

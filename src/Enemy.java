@@ -75,13 +75,13 @@ public class Enemy{
                 weaponsStrength = 17;
                 break;
             case "Short Sword":
-                weaponsStrength = 20;
+                weaponsStrength = 18;
                 break;
             case "Long Sword":
-                weaponsStrength = 27;
+                weaponsStrength = 24;
                 break;
             case "Club":
-                weaponsStrength = 30;
+                weaponsStrength = 26;
                 break;
             case "Axe":
                 weaponsStrength = 25;

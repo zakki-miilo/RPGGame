@@ -3,9 +3,28 @@ import java.io.*;
 
 
 public class Quest {
+    private int servant = 0;
+    int princessRoomCount = 0;
+
+    public void setServant(int servant) {
+        this.servant = servant;
+    }
+
+    public int getServant() {
+        return servant;
+    }
+
+    public int getPrincessRoomCount() {
+        return princessRoomCount;
+    }
+
+    public void setPrincessRoomCount(int princessRoomCount) {
+        this.princessRoomCount = princessRoomCount;
+    }
 
     public static void main(String[] args) throws FileNotFoundException, InterruptedException {
-        int princessRoomCount = 0;
+
+        Quest servant = new Quest();
         String heroName;
         String answer;
         Enemy orc = new Enemy("Orc");
@@ -52,7 +71,7 @@ public class Quest {
                 case "room":
                 case "princess's room":
                 case "a":
-                    if(princessRoomCount ==1){
+                    if(servant.getPrincessRoomCount() ==1){
                         System.out.println("There's nothing in the room...");
                         break;
                     }
@@ -75,18 +94,26 @@ public class Quest {
                             //Thread.sleep(3000);
                             System.out.println("It has been hiding waiting to ambush the king." +
                                     "\nHere, this is all I can offer you as gratitude." +
-                                    "\nThis is all so scary... I'll tell the king what happened. Pl-pl-please head to th-the town centre. " +
+                                    "\nThis is all so scary... ");
+                            if(servant.getServant() == 1){
+                                System.out.println(ColorText.TEXT_PURPLE + "*exhausted and very frighten on the ground with jelly legs. You tell her about her sister*" + ColorText.TEXT_RESET);
+                                System.out.println("What?...M-mmm-my sister is looking for me... she's been worried sick? She thought I was taken too?" +
+                                        "\nI must hurry back to her! o-oh dear. Bu-but first...");
+                                System.out.println(ColorText.TEXT_PURPLE + "*She quickly straighten herself out and brush of the dirt from her uniform*" + ColorText.TEXT_RESET);
+
+                            }
+                            System.out.println("I must inform the king of what happened. Pl-pl-please head to th-the town centre. " +
                                     "\nThere you'll find supplies, potions and armours to aid you in this quest.");
                             //Thread.sleep(8000);
-                            hero.goldReward();
+                            hero.goldReward(5);
                             hero.goldInPocket();
-                            princessRoomCount ++;
+                            servant.setPrincessRoomCount(1);
                             break;
                         } else {
                             System.out.println("Nothing is there...");
                             chance++;
                         }
-                        princessRoomCount++;
+
                     } while (chance < 2);
                     //Thread.sleep(3000);
                     break;
@@ -98,7 +125,7 @@ public class Quest {
                 case "servant":
                 case "talk to servant":
                 case "d":
-                    servant();
+                    servant.servant(servant.getPrincessRoomCount(), hero);
                     break;
                 case "f":
                     System.out.println(ColorText.TEXT_PURPLE + "*Leaving the castle*" + ColorText.TEXT_RESET);
@@ -116,13 +143,32 @@ public class Quest {
         town.town(story, shop, hero, battle, bandit);
         forest.chapter2(hero, battle);
     }
-    private static void servant(){
-        System.out.println(ColorText.TEXT_PURPLE+"*You search the rooms and talked to the servants of the place.*" +ColorText.TEXT_RESET);
-        System.out.println("Nobody seems to have any information. Then you walked into the kitchen and find a woman crying there.");
-        System.out.println(ColorText.TEXT_PURPLE+"*She looks up you. With a sigh of relieved...*" +ColorText.TEXT_RESET);
-        System.out.println("Pl-pl-please help me. My younger sister went missing last night..." +
-                "\nShe is the princess's maid and I think they took her as well...bu-bu-but I'm not sure. She could still be" +
-                "\nsomewhere in the castle. If you find her I'll be in your dept. Please hurry, return to me if you find something.");
+    public void servant(int princessRoomCount, Character hero){
+        if(getServant() != 2) {
+            if(princessRoomCount !=1){
+                System.out.println(ColorText.TEXT_PURPLE+"*You search the rooms and talked to the servants of the palace.*" +ColorText.TEXT_RESET);
+                System.out.println("Nobody seems to have any information. Then you walked into the kitchen and find a woman crying there.");
+                System.out.println(ColorText.TEXT_PURPLE+"*She looks up you. With a sigh of relieved...*" +ColorText.TEXT_RESET);
+                System.out.println("Pl-pl-please help me. My younger sister went missing last night...");
+            }
+        if(princessRoomCount == 1){
+                System.out.println("Wh-wh-what...?! you already find her.");
+                System.out.println(ColorText.TEXT_PURPLE + "*Tears pouring from her eyes. She stood up and grabbed you, hugging you tightly*" + ColorText.TEXT_RESET);
+                System.out.println("Oh dear lord... Thank you, thank you. You're saying you killed the orc that was" +
+                        "\nhiding her in the princess's room. Now she's informing the king of the situation..." +
+                        "\nHow did we missed an orc hiding in the princess's room? " +
+                        "\nAs a token of my gratitude please accept this.");
+                System.out.println(ColorText.TEXT_PURPLE + "*She hands you a sack of gold*" + ColorText.TEXT_RESET);
+                hero.goldReward(10);
+                setServant(2);
+            }else {
+                System.out.println("\nShe is the princess's maid and I think they took her as well...bu-bu-but I'm not sure. She could still be" +
+                        "\nsomewhere in the castle. If you find her I'll be in your dept. Please hurry, return to me if you find something.");
+                setServant(1);
+            }
+        }else {
+            System.out.println("The chefs are busy cooking lunch for the king. Better leave them to their work...");
+        }
 
     }
 
