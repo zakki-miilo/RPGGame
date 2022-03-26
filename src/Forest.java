@@ -11,7 +11,7 @@ public class Forest {
         System.out.println("What do you do?");
         System.out.println(ColorText.TEXT_BLUE + "| s: Setup camp now | k: keeping riding | g: Go find an empty hut|" + ColorText.TEXT_RESET);
         String mount = scan.nextLine();
-        System.out.println("As night grows deeper and so does your sleep, you were awoken by a scream.");
+        System.out.println("As night grows deeper and so does your sleep... A few hours into your sleep you were awoken by a scream.");
         System.out.println("\"SOMEBODY help me! Ahhh-hh...\"");
         System.out.println("What do you do?");
 

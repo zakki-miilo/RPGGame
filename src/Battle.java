@@ -9,6 +9,7 @@ public class Battle{
 
     Orc orc = new Orc();
     Wolf wolf = new Wolf();
+    Bandit bandit = new Bandit();
     Random rand = new Random();
     int coin;
     int roll;
@@ -36,7 +37,7 @@ public class Battle{
             resetEnemyHP = enemy.getAvgEnemyHealth();
             if (enemy.getAvgEnemyHealth() == 0) {
                 enemy.isDead();
-                goldReward(hero);
+                hero.goldReward();
                 //Thread.sleep(3000);
             }else {
                 while (hero.getHealth() > 0 || enemy.getAvgEnemyHealth() > 0) {
@@ -44,7 +45,7 @@ public class Battle{
                         enemyBattle(hero, enemy);
                         if (enemy.getAvgEnemyHealth() == 0) {
                             enemy.isDead();
-                            goldReward(hero);
+                            hero.goldReward();
                             break;
                         }else {
                             heroBattle(hero, enemy);
@@ -53,7 +54,7 @@ public class Battle{
                         heroBattle(hero, enemy);
                         if(enemy.getAvgEnemyHealth() == 0) {
                             enemy.isDead();
-                            goldReward(hero);
+                            hero.goldReward();
                             break;
                         }else{
                             enemyBattle(hero, enemy);
@@ -109,7 +110,19 @@ public class Battle{
                 case 2:
                     wolf.attack3(enemy);
                     break;
-            }
+            }}
+            else if(enemy.getEnemyType().equals("Bandit")){
+                switch (coin) {
+                    case 0:
+                        bandit.attack(enemy);
+                        break;
+                    case 1:
+                        bandit.attack2(enemy);
+                        break;
+                    case 2:
+                        bandit.attack3(enemy);
+                        break;
+                }
         }
 
     }
@@ -244,19 +257,14 @@ public class Battle{
         System.out.println("__________________________");
     }
 
-    public void goldReward(Character hero){
-        int gold = rand.nextInt(20)+5;
 
-        hero.setGold(gold);
-        System.out.println(ColorText.TEXT_YELLOW + "| +"+ gold +"G |" + ColorText.TEXT_RESET);
-    }
 
     private void successHitEnemy(Character hero, Enemy enemy){
         critChance = rand.nextInt(15)+2; //15 and + 2. change back
         System.out.println("Critical attack +" + critChance);
         enemy.setDamagedTaken(hero.getHeroStrength()+critChance);
         int totalHit = hero.getHeroStrength()+critChance;
-        System.out.println(ColorText.TEXT_RED +"HIT! The "+ enemy.getEnemyType() +" has taken damaged -" + totalHit + " HP"+ ColorText.TEXT_RESET);
+        System.out.println(ColorText.TEXT_BLUE +"HIT! The "+ enemy.getEnemyType() +" has taken damaged -" + totalHit + " HP"+ ColorText.TEXT_RESET);
         System.out.println("__________________________");
     }
 

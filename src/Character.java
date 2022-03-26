@@ -2,11 +2,12 @@ import java.util.Random;
 
 public class Character{
     private int health = 100;
-    private int gold = 0;
+    private double gold = 0.0;
     String heroName;
     String heroWeapon = "Broadsword";
     private int heroStrength;
     Random rand = new Random();
+
 
     public Character(String hero){
         this.heroName = hero;
@@ -17,7 +18,7 @@ public class Character{
         return heroName;
     }
 
-    public int getGold() {
+    public double getGold() {
         return gold;
     }
 
@@ -50,8 +51,14 @@ public class Character{
     public void setGold(int gold) {
         this.gold += gold;
     }
-    public void withdrawGold(int gold){
+    public void withdrawGold(double gold){
         this.gold -= gold;
+    }
+    public void goldReward(){
+        int gold = rand.nextInt(20)+5;
+
+        this.setGold(gold);
+        System.out.println(ColorText.TEXT_YELLOW + "| +"+ gold +"G |" + ColorText.TEXT_RESET);
     }
 
     public void gameOver(){

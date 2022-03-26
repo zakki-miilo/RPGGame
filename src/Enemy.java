@@ -68,19 +68,19 @@ public class Enemy{
     private int weaponStrength(){
         switch (weaponType){
             case "Stick":
-                weaponsStrength = 15;
+                weaponsStrength = 17;
                 break;
             case "Short Sword":
                 weaponsStrength = 20;
                 break;
             case "Long Sword":
-                weaponsStrength = 25;
+                weaponsStrength = 27;
                 break;
             case "Club":
-                weaponsStrength = 28;
+                weaponsStrength = 30;
                 break;
             case "Axe":
-                weaponsStrength = 23;
+                weaponsStrength = 25;
                 break;
         }
         return weaponsStrength;

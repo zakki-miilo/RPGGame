@@ -50,3 +50,25 @@ class Wolf implements Types{
 
 }
 
+class Bandit implements Types{
+    @Override
+    public void attack(Enemy enemy) {
+        System.out.println(ColorText.TEXT_RED +"Bandit does sneaks attacks with a "+ enemy.weaponType()+ColorText.TEXT_RESET);
+    }
+
+    @Override
+    public void attack2(Enemy enemy) {
+        System.out.println(ColorText.TEXT_RED +"Bandit SLASHES you with " + enemy.weaponType()+ColorText.TEXT_RESET);
+    }
+
+    @Override
+    public void attack3(Enemy enemy) {
+        System.out.println(ColorText.TEXT_RED +"The Bandit Jumps and gets behind you."+ColorText.TEXT_RESET);
+    }
+
+    @Override
+    public void idle() {
+        System.out.println(ColorText.TEXT_PURPLE + "The Bandit is thinking and preparing something..."+ColorText.TEXT_RESET);
+    }
+}
+
