@@ -7,14 +7,48 @@ public class Character{
     String heroWeapon = "";
     private int heroWeaponStrength;
     Random rand = new Random();
+    String armor = "";
+    String shield = "";
+    private int shieldStrength = 0;
+    boolean campingTent;
+    boolean torch;
 
-
+public Character(){}
 
 
     public Character(String hero){
         this.heroName = hero;
         this.heroWeapon = "Broadsword";
         this.heroWeaponStrength = heroWeaponStrength();
+        this.armor = "Light Clothing";
+        this.campingTent = false;
+        this.torch = false;
+    }
+
+
+
+    public int getShieldStrength() {
+        return shieldStrength;
+    }
+
+    public void setShieldStrength(int shieldStrength) {
+        this.shieldStrength = shieldStrength;
+    }
+
+    public String getShield() {
+        return shield;
+    }
+
+    public void setShield(String shield) {
+        this.shield = shield;
+    }
+
+    public String getArmor() {
+        return armor;
+    }
+
+    public void setArmor(String armor) {
+        this.armor = armor;
     }
 
     public String getHeroName() {
@@ -29,7 +63,11 @@ public class Character{
         return health;
     }
 
-    public void setHealth(int damage) {
+    public void showHealth(){
+        System.out.println(ColorText.TEXT_BLUE + ColorText.GLASS_BG +"|| " + heroName + " | HP: " + health + " ||"+ ColorText.RESET_BG + ColorText.TEXT_RESET);
+    }
+
+    public void damageHealth(int damage) {
         this.health = this.health - damage;
         if(this.health < 0){
             this.health = 0;

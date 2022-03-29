@@ -1,12 +1,10 @@
+import java.util.Objects;
 import java.util.Random;
 import java.util.Scanner;
 
 public class Battle{
     DiceFate fateBattle = new DiceFate();
     Scanner scanBattle = new Scanner(System.in);
-    String hero;
-
-
     Orc orc = new Orc();
     Wolf wolf = new Wolf();
     Bandit bandit = new Bandit();
@@ -14,39 +12,73 @@ public class Battle{
     int coin;
     int roll;
     int fate;
-    Inventory inventory = new Inventory();
     boolean shield = false;
     int critChance;
     int resetEnemyHP;
-    Shop shop = new Shop();
+    //Shop shop = new Shop();
+    public Shop shop;
+    public Character hero;
+    public Enemy enemy;
+    public Inventory inventory;
 
-    public Battle(Character hero) {
-        this.hero = hero.heroName;
+    public Battle(Character hero, Shop shop, Inventory inventory, Enemy enemy) {
+        this.hero = hero;
         this.coin = coin();
         this.roll = roll();
-
+        this.shop = shop;
+        this.inventory = inventory;
+        this.enemy = enemy;
     }
 
-    //TODO: tutorial battle
-    //TODO: if enemy type is a wolf or beast then fight with no weapons.
-    //TODO: create method to check, then change how they fight depending on the type.
-    //TODO: final boss. Big ORC King.
+    public void checkEquipment(){
+        switch (hero.heroWeapon){
+            case "Claymore Sword":
+                hero.setArmor("Leather Armour");
+                hero.healing(10);
+                System.out.println("leather armour is equipped +10 defense");
+                break;
+            case "Excalibur":
+                hero.setArmor("King's Armour");
+                hero.healing(22);
+                System.out.println("King's armour is equipped +22 defense");
+                break;
+        }
+    }
 
-    public void battleDeath(Character hero, Enemy enemy) throws InterruptedException {
-            battleStart(hero, enemy);
-            System.out.println(enemy.weaponType() +": "+ enemy.getWeaponsStrength()); //for testing
-            System.out.println(hero.heroWeapon + " : " + hero.getHeroStrength()); //for testing
-            coinFlip(coin,hero, enemy);
-            coin = 2; //for testing purposes. delete after.
+    public void checkShield(){
+        if(Objects.equals(hero.getShield(), "Wooden Shield")){
+            hero.setShieldStrength(6);
+            System.out.println("Shield is on. +10 Shield in applied every turn.");
+        }
+    }
+
+    public void equipArmour(){
+        if(hero.getArmor().equals("Light Armour")){
+            hero.healing(8);
+            System.out.println("Take armour from inventory and equip it: + 8 Defense.");
+            System.out.println("You have Light armour on: +8 defense");
+        }
+    }
+
+
+    public void battleDeath(Enemy enemy) throws InterruptedException {
+        battleStart(enemy);
+
+            //System.out.println("Potions in pocket:"+ inventory.getPotions());//for testing
+            //System.out.println(enemy.weaponType() +": "+ enemy.getWeaponsStrength()); //for testing
+            //System.out.println(hero.heroWeapon + " : " + hero.getHeroStrength()); //for testing
+            coinFlip(coin, enemy);
+
             resetEnemyHP = enemy.getAvgEnemyHealth();
+
             if (enemy.getAvgEnemyHealth() == 0) {
                 enemy.isDead();
                 hero.goldReward(5);
                 //Thread.sleep(3000);
             }else {
                 while (hero.getHealth() > 0 || enemy.getAvgEnemyHealth() > 0) {
-                    System.out.println(enemy.weaponType() +": "+ enemy.getWeaponsStrength()); // for testiing
-                    System.out.println(hero.heroWeapon + " : " + hero.getHeroStrength()); // for testing
+                    //System.out.println(enemy.weaponType() +": "+ enemy.getWeaponsStrength()); // for testiing
+                    //System.out.println(hero.heroWeapon + " : " + hero.getHeroStrength()); // for testing
                     if(coin == 1){ //change back to 1
                         enemyBattle(hero, enemy);
                         if (enemy.getAvgEnemyHealth() == 0) {
@@ -54,10 +86,10 @@ public class Battle{
                             hero.goldReward(5);
                             break;
                         }else {
-                            heroBattle(hero, enemy,shop);
+                            heroBattle(enemy);
                         }
                     }else {
-                        heroBattle(hero, enemy,shop);
+                        heroBattle(enemy);
                         if(enemy.getAvgEnemyHealth() == 0) {
                             enemy.isDead();
                             hero.goldReward(5);
@@ -73,19 +105,20 @@ public class Battle{
     }
 
     private int coin(){
-        return coin = rand.nextInt(2);
+        //return coin = rand.nextInt(2);
+        return 1; //TODO for testing, change back to random.
     }
 
     private int roll(){
         return roll = rand.nextInt(3);
     }
 
-    private void coinFlip(int coin, Character hero, Enemy enemy) throws InterruptedException {
+    private void coinFlip(int coin, Enemy enemy) throws InterruptedException {
         if(coin == 1){
             System.out.println("---------------------------");
             System.out.println(ColorText.TEXT_PURPLE + "Hero starts"+ ColorText.TEXT_RESET);
 
-            heroBattle(hero, enemy, shop);
+            heroBattle(enemy);
         }else {
             System.out.println("---------------------------");
             System.out.println(ColorText.TEXT_PURPLE + enemy.getEnemyType() +" starts"+ ColorText.TEXT_RESET);
@@ -95,31 +128,38 @@ public class Battle{
     }
 
     public void attackType(Enemy enemy, int coin){
-        if(enemy.getEnemyType().equals("Orc")){
-           switch (coin) {
-               case 0:
-                   orc.attack(enemy);
-                   break;
-               case 1:
-                   orc.attack2(enemy);
-                   break;
-               case 2:
-                   orc.attack3(enemy);
-                   break;
-           }
-        }else if(enemy.getEnemyType().equals("Wolf")){
-            switch (coin) {
-                case 0:
-                    wolf.attack(enemy);
-                    break;
-                case 1:
-                    wolf.attack2(enemy);
-                    break;
-                case 2:
-                    wolf.attack3(enemy);
-                    break;
-            }}
-            else if(enemy.getEnemyType().equals("Bandit")){
+        switch (enemy.getEnemyType()){
+            case "orc":
+            case "fatOrc":
+            case "Orc":
+            case "Death-Eye, King of the ORC":
+            case "Warrior Orc":
+               switch (coin) {
+                   case 0:
+                       orc.attack(enemy);
+                       break;
+                   case 1:
+                       orc.attack2(enemy);
+                       break;
+                   case 2:
+                       orc.attack3(enemy);
+                       break;
+               }
+               break;
+            case "Wolf":
+                switch (coin) {
+                    case 0:
+                        wolf.attack(enemy);
+                        break;
+                    case 1:
+                        wolf.attack2(enemy);
+                        break;
+                    case 2:
+                        wolf.attack3(enemy);
+                        break;
+                    }
+                break;
+            case "Bandit":
                 switch (coin) {
                     case 0:
                         bandit.attack(enemy);
@@ -131,34 +171,34 @@ public class Battle{
                         bandit.attack3(enemy);
                         break;
                 }
-        }
-
+                break;
+            }
     }
 
-    public void heroBattle(Character hero, Enemy enemy, Shop shop) throws InterruptedException {
+    public void heroBattle(Enemy enemy) throws InterruptedException {
         fate = fateBattle.randomDice();
             System.out.println("__________________________");
             System.out.println("What do you do?");
-            System.out.println(ColorText.TEXT_CYAN +ColorText.GLASS_BG+ " a: Attack | d: Defend | i: Inventory "+ColorText.RESET_BG+ColorText.TEXT_RESET);
+            System.out.println(ColorText.TEXT_CYAN +ColorText.GLASS_BG+ " a: Attack | s: Defend | d: Inventory "+ColorText.RESET_BG+ColorText.TEXT_RESET);
             String reply = scanBattle.nextLine().toLowerCase();
 
             switch (reply){
                 case "inventory":
-                case "i":
-                    inventory.showItems(hero ,enemy);
+                case "d":
+                    inventory.showItems(Battle.this);
                     //putting whatever in here will be looped if you go back and forward in the menu while play.
                     //but putting nothing here works for some reason
                     break;
                 case "attack":
                 case "a":
                     if (fate <= 2) { //testing purposes. Change back to 2
-                        heroMissedAtt(hero);
+                        heroMissedAtt();
                         //Thread.sleep(2000);
                     } else {
                         heroAttacks();
                         //Thread.sleep(3000);
                         System.out.println("---------------------------");
-                        successHitEnemy(hero, enemy);
+                        successHitEnemy(enemy);
                         //Thread.sleep(3000);
                         showEnemyHp(enemy);
                         //Thread.sleep(3000);
@@ -166,7 +206,7 @@ public class Battle{
                     }
                     break;
                 case "defend":
-                case "d":
+                case "s":
                     System.out.println(ColorText.TEXT_PURPLE+ "*In a defense stand. Ready to block*"+ColorText.TEXT_RESET);
                     //Thread.sleep(3000);
                     shield = true;
@@ -177,7 +217,7 @@ public class Battle{
 
         }
 
-    private void enemyBattle(Character hero, Enemy enemy) throws InterruptedException {
+    private void enemyBattle(Character hero, Enemy enemy) {
         int roll = roll();
         fate = fateBattle.randomDice();
             if (fate <= 1) {
@@ -196,12 +236,12 @@ public class Battle{
                     attackType(enemy, roll);
                     //System.out.println(enemy.getEnemyType() + "do something"+ enemy.getAvgEnemyWeapon() + " at you");
                     //Thread.sleep(2000);
-                    hero.setHealth(enemy.getWeaponsStrength());
+                    hero.damageHealth(enemy.getWeaponsStrength());
                     System.out.println("__________________________");
                     System.out.println(ColorText.TEXT_RED +"*Attack does a small amount of damage -" + percentage+ColorText.TEXT_RESET);
                     //Thread.sleep(2000);
                     System.out.println("---------------------------");
-                    showHealth(hero);
+                    hero.showHealth();
                     //Thread.sleep(2000);
 
                     if (hero.getHealth() == 0) {
@@ -210,16 +250,17 @@ public class Battle{
                     shield = false;
                     enemy.setWeaponsStrength(normalStrength);
                 }else {
+                    checkShield();
                     //Thread.sleep(3000);
                     System.out.println("---------------------------");
                     attackType(enemy,roll);
                     //System.out.println(enemy.getEnemyType()+ " swing his " + enemy.getAvgEnemyWeapon() + " at you");
                     //Thread.sleep(3000);
                     System.out.println("__________________________");
-                    successHitHero(hero,enemy);
+                    successHitHero(enemy);
                     //Thread.sleep(3000);
                     System.out.println("---------------------------");
-                    showHealth(hero);
+                    hero.showHealth();
                     //Thread.sleep(3000);
 
                     if (hero.getHealth() == 0) {
@@ -229,12 +270,12 @@ public class Battle{
             }
     }
 
-    private void battleStart(Character hero,Enemy enemy) throws InterruptedException {
+    private void battleStart(Enemy enemy) throws InterruptedException {
         System.out.println(ColorText.TEXT_RED +ColorText.GLASS_BG+" »-(¯`·.·´¯)->BATTLE Begins" +
                 "<-(¯`·.·´¯)-«   \n"+ColorText.RESET_BG+ColorText.TEXT_RESET);
         //Thread.sleep(4000);
-        showHealth(hero);
-        System.out.println("*You pull out a " + hero.heroWeapon + "*");
+        hero.showHealth();
+        System.out.println("*You pull out the " + hero.heroWeapon + "*");
         //Thread.sleep(3000);
         showEnemyHp(enemy);
         idling(enemy);
@@ -252,19 +293,13 @@ public class Battle{
         }
     }
 
-    public void showHealth(Character hero){
-        System.out.println(ColorText.TEXT_BLUE + ColorText.GLASS_BG +"|| " + hero.heroName + " | HP: " + hero.getHealth() + " ||"+ ColorText.RESET_BG + ColorText.TEXT_RESET);
-    }
 
     private void showEnemyHp(Enemy enemy){
         System.out.println(ColorText.TEXT_GREEN +ColorText.GLASS_BG + "|| " + enemy.getEnemyType()+ " | HP: "  +  enemy.getAvgEnemyHealth()+ " ||" + ColorText.RESET_BG+  ColorText.TEXT_RESET);
-
     }
 
-
-
-    private void successHitEnemy(Character hero, Enemy enemy){
-        critChance = rand.nextInt(15)+2; //15 and + 2. change back
+    private void successHitEnemy(Enemy enemy){
+        critChance = rand.nextInt(150)+200; //15 and + 2. change back
         System.out.println("Critical attack +" + critChance);
         enemy.setDamagedTaken(hero.getHeroStrength()+critChance);
         int totalHit = hero.getHeroStrength()+critChance;
@@ -277,15 +312,24 @@ public class Battle{
         System.out.println(ColorText.TEXT_PURPLE + enemy.getEnemyType() +" Attacks and misses!"+ColorText.TEXT_RESET);
     }
 
-    private void successHitHero(Character hero, Enemy enemy){
+    private void successHitHero(Enemy enemy){
+        int totalHit;
         critChance = rand.nextInt(10)+2;
         System.out.println("Critical attack +" + critChance);
-        hero.setHealth(enemy.getWeaponsStrength()+critChance);
-        int totalHit = enemy.getWeaponsStrength()+critChance;
+        hero.damageHealth(enemy.getWeaponsStrength()+critChance);
+        checkEquipment();
+        equipArmour();
+        if(hero.getShieldStrength() != 0){
+            System.out.println("Hit Shield: - 10 Attack");
+            totalHit = (enemy.getWeaponsStrength()+critChance) - hero.getShieldStrength();
+        }else {
+            System.out.println("No shield");//test
+            totalHit = enemy.getWeaponsStrength()+critChance;
+        }
         System.out.println(ColorText.TEXT_RED + "You have been HIT! -" + totalHit + " HP"+ ColorText.TEXT_RESET);
     }
 
-    private void heroMissedAtt(Character hero){
+    private void heroMissedAtt(){
         System.out.println(ColorText.TEXT_CYAN + hero.heroName + "'s ATTACK missed!"+ ColorText.TEXT_RESET);
     }
 

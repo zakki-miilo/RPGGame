@@ -1,0 +1,8 @@
+potions 5
+breads 3
+lightArmour 1
+greatSword 1
+woodenShield  1
+sandwich  6
+campingTent 1
+torch  1

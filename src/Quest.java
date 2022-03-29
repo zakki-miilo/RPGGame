@@ -7,27 +7,31 @@ public class Quest {
         String heroName;
         Enemy bandit = new Enemy("Bandit");
         Enemy enemy = new Enemy();
-        Forest forest = new Forest();
-        Shop shop = new Shop();
+
         Story story = new Story();
-        Town town = new Town();
-        Castle castle = new Castle();
+        Dialogue dialogue = new Dialogue();
         Scanner scan = new Scanner(System.in);
 
-        System.out.println(ColorText.TEXT_CYAN + "Welcome Player, to the world of Knight's Quest!"+ ColorText.TEXT_RESET);
-        System.out.println(ColorText.TEXT_CYAN + "Whether you are ready or not. There is no turning back now..."+ ColorText.TEXT_RESET);
-        //Thread.sleep(1000);
+        dialogue.cyanDialogue("Welcome Player, to the world of Knight's Quest!", 1);
+        dialogue.cyanDialogue("Whether you are ready or not. There is no turning back now...",2);
+
         story.intro();
-        //Thread.sleep(1000);
-        System.out.println(ColorText.TEXT_CYAN + "What is your name Hero?"+ColorText.TEXT_RESET);
+
+        dialogue.cyanDialogue("What is your name Hero?",0);
         heroName = scan.nextLine();
 
         Character hero = new Character(heroName);
-        Battle battle = new Battle(hero);
-
-        castle.castleQuest(battle, hero);
-        town.town(story, shop, hero, battle, bandit);
-        forest.chapter2(hero, battle,enemy);
+        Inventory inventory = new Inventory(1,1,3,hero,enemy);
+        Shop shop = new Shop(hero);
+        Battle battle = new Battle(hero,shop, inventory, enemy);
+        Castle castle = new Castle(hero,battle,inventory);
+        Town town = new Town(hero,battle,inventory,shop, story,bandit);
+        castle.castleQuest();
+        town.town();
+        Forest forest = new Forest(hero,battle,inventory);
+        forest.chapter2();
+        Mountain mountain = new Mountain(hero,inventory, battle);
+        mountain.finalChapter();
     }
 
 

@@ -1,21 +1,27 @@
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Shop {
     Scanner scanAmount = new Scanner(System.in);
-
+    Dialogue dialogue = new Dialogue();
     int potions = 5;
     int breads = 3;
     int lightArmour = 1;
     int greatSword = 1;
-    int woodenShield = 3;
+    int woodenShield = 1;
     int sandwich = 6;
     int campingTent =1;
     int torch = 1;
     boolean stockIsZero = false;
-    Town town = new Town();
     boolean notBuyItem = false;
+    private Enemy enemy;
+    public  Character hero;
+
+    public Shop(Character hero){
+        //this.enemy = enemy;
+        this.hero = hero;
+    }
 
     String[] products = {"p: Potions", "b: Breads", "t: torch", "c: Camping Tent", "s: Sandwich",
             "l: Light Armour", "w: Wooden Shield","g: Great Sword"};
@@ -23,13 +29,14 @@ public class Shop {
 
     ArrayList<String> inventory = new ArrayList<>();
 
-    public void inShop(){
 
-        }
+    public void inShop(){}
 
-    public void buyingItems(Character hero, Enemy enemy){
+    public void buyingItems(Inventory inGameInventory) throws InterruptedException{
+
         Scanner scan = new Scanner(System.in);
-        System.out.println(ColorText.TEXT_PURPLE + "What do fancy today?" + ColorText.TEXT_RESET);
+        dialogue.purpleDialogue("What do fancy today?",0);
+        //readFile();
         String player;
         do{
         int[] stocks = {potions,breads,torch,campingTent,sandwich,lightArmour,woodenShield,greatSword};
@@ -41,12 +48,15 @@ public class Shop {
             case "p":
                 isStockZero(potions, "potion", 15);
                 if(potions != 0){
-                    int isAmount = amount(potions, "potion", hero);
+                    int isAmount = amount(potions, "potion");
                     if(isAmount != 0){
-                        checkingBuyOrNot(hero, isAmount, 15);
+                        checkingBuyOrNot(isAmount, 15);
                         if(!notBuyItem){
                             potions = itemToInventory("potion", potions, isAmount);
                             displayPurchase(isAmount, potions, "potion");
+                            inventory.remove("potion");
+                            inGameInventory.addPotion(isAmount);
+                            System.out.println(inGameInventory.getPotions() + ": is in pocket");
                         }
                         if (potions <= 0) {
                             stockIsZero = true;
@@ -59,12 +69,15 @@ public class Shop {
             case "b":
                 isStockZero(breads, "bread", 5.6);
                 if(breads != 0){
-                    int isAmount = amount(breads, "bread", hero);
+                    int isAmount = amount(breads, "bread");
                     if(isAmount != 0){
-                        checkingBuyOrNot(hero, isAmount, 5.6);
+                        checkingBuyOrNot(isAmount, 5.6);
                         if(!notBuyItem){
                             breads = itemToInventory("bread", breads, isAmount);
                             displayPurchase(isAmount, breads, "bread");
+                           inventory.remove("bread");
+                            inGameInventory.addBread(isAmount);
+                            System.out.println(inGameInventory.getBreads() + ": is in pocket");
                         }
                         if (breads <= 0) {
                             stockIsZero = true;
@@ -77,12 +90,13 @@ public class Shop {
             case "a torch":
                 isStockZero(torch,"torch", 20);
                 if(torch != 0){
-                    int isAmount = amount(torch, "torch", hero);
+                    int isAmount = amount(torch, "torch");
                     if(isAmount != 0){
-                        checkingBuyOrNot(hero, isAmount, 9);
+                        checkingBuyOrNot(isAmount, 9);
                         if(!notBuyItem){
                             torch = itemToInventory("torch", torch, isAmount);
                             displayPurchase(isAmount, torch, "torch");
+                            hero.torch = true;
                         }
                         if (torch <= 0) {
                             stockIsZero = true;
@@ -95,12 +109,15 @@ public class Shop {
             case "a sandwich":
                 isStockZero(sandwich,"sandwich", 9);
                 if(sandwich != 0){
-                    int isAmount = amount(sandwich, "sandwich", hero);
+                    int isAmount = amount(sandwich, "sandwich");
                     if(isAmount != 0){
-                        checkingBuyOrNot(hero, isAmount, 9);
+                        checkingBuyOrNot(isAmount, 9);
                         if(!notBuyItem){
                             sandwich = itemToInventory("sandwich", sandwich, isAmount);
                             displayPurchase(isAmount, sandwich, "sandwich");
+                            inventory.remove("sandwich");
+                            inGameInventory.addSandwiches(isAmount);
+                            System.out.println(inGameInventory.getSandwiches() + ": is in pocket");
                         }
                         if (sandwich <= 0) {
                             stockIsZero = true;
@@ -112,12 +129,13 @@ public class Shop {
             case "c":
                 isStockZero(campingTent, "camping tent", 65);
                 if(campingTent != 0){
-                    int isAmount = amount(campingTent, "camping tent", hero);
+                    int isAmount = amount(campingTent, "camping tent");
                     if(isAmount != 0){
-                        checkingBuyOrNot(hero, isAmount, 65);
+                        checkingBuyOrNot(isAmount, 65);
                         if(!notBuyItem){
                             campingTent = itemToInventory("camping tent", campingTent, isAmount);
                             displayPurchase(isAmount, campingTent, "camping tent");
+                            hero.campingTent = true;
                         }
                         if (campingTent <= 0) {
                             stockIsZero = true;
@@ -129,13 +147,15 @@ public class Shop {
             case "l":
                 isStockZero(lightArmour, "light armour", 90);
                 if(lightArmour != 0){
-                    int isAmount = amount(lightArmour, "light armour", hero);
+                    int isAmount = amount(lightArmour, "light armour");
                     if(isAmount != 0){
-                        checkingBuyOrNot(hero, isAmount, 90);
+                        checkingBuyOrNot(isAmount, 90);
                         if(!notBuyItem){
                             lightArmour = itemToInventory("light armour", lightArmour, isAmount);
                             displayPurchase(isAmount, lightArmour, "light armour");
-                            equipArmour(enemy);
+                            //equipArmour(enemy);
+                            hero.setArmor("Light Armour");
+                            inventory.remove("light armour");
                         }
                         if (lightArmour <= 0) {
                             stockIsZero = true;
@@ -147,13 +167,13 @@ public class Shop {
             case "g":
                 isStockZero(greatSword, "great sword", 95);
                 if(greatSword != 0){
-                    int isAmount = amount(greatSword, "great sword", hero);
+                    int isAmount = amount(greatSword, "great sword");
                     if(isAmount != 0){
-                        checkingBuyOrNot(hero, isAmount, 95);
+                        checkingBuyOrNot( isAmount, 95);
                         if(!notBuyItem){
                             greatSword = itemToInventory("great sword", greatSword, isAmount);
                             displayPurchase(isAmount, greatSword, "great sword");
-                            equipWeapon(hero);
+                            equipWeapon(); // it was equipWeapon(hero). changed it to try and improve code.
                         }
                         if (greatSword <= 0) {
                             stockIsZero = true;
@@ -165,12 +185,14 @@ public class Shop {
             case "w":
                 isStockZero(woodenShield, "wooden shield", 30);
                 if(woodenShield != 0){
-                    int isAmount = amount(woodenShield, "wooden shield", hero);
+                    int isAmount = amount(woodenShield, "wooden shield");
                     if(isAmount != 0){
-                        checkingBuyOrNot(hero, isAmount, 30);
+                        checkingBuyOrNot(isAmount, 30);
                         if(!notBuyItem){
                             woodenShield = itemToInventory( "wooden shield", woodenShield, isAmount);
                             displayPurchase(isAmount, woodenShield, "wooden shield");
+                            hero.setShield("Wooden Shield");
+                            inventory.remove("wooden shield");
                         }
                         if (woodenShield <= 0) {
                             stockIsZero = true;
@@ -179,63 +201,56 @@ public class Shop {
                 }
                 break;
             case "f":
-                System.out.println("Thank you for stopping by. Please visit again soon!");
+                dialogue.dialogue("Thank you for stopping by. Please visit again soon!",1);
                 break;
             default:
-                System.out.println(ColorText.TEXT_PURPLE +"That's not an option."+ ColorText.TEXT_RESET);
+                dialogue.purpleDialogue("That's not an option.",1);
                 break;
         }
             if (!player.equals("f")) {
-                System.out.println(ColorText.TEXT_BLUE + "Would you like anything else? |f: exit |" + ColorText.TEXT_RESET);
+                dialogue.blueDialogue( "Would you like anything else? |f: exit",3);
 
             }
         } while (!player.equals("f"));
     }
 
-    public void equipArmour(Enemy enemy){
-        if(inventory.contains("light armour")){
-            enemy.weaponStrengthDecrease(8);
-            System.out.println("Take armour from inventory and equip it: + 8 Defence.");
-            inventory.remove("light armour");
-        }
-    }
-    public void equipWeapon(Character hero){
-        Random rand = new Random();
+    public void equipWeapon() throws InterruptedException {
         if(inventory.contains("great sword")){
             hero.heroWeapon = "Great Sword";
-            System.out.println("Take Great Sword from inventory and equip it: +10 damage");
+            dialogue.dialogue("Take Great Sword from inventory and equip it: +10 damage",1);
             hero.setHeroWeaponStrength(27);
             inventory.remove("great sword");
         }
     }
 
-    public void checkingBuyOrNot(Character hero, int isAmount, double price){
+    public void checkingBuyOrNot(int isAmount, double price) throws InterruptedException {
         double totalPrice = isAmount * price;
-        decisionToBuy(hero, totalPrice);
+        decisionToBuy(totalPrice);
       if(notBuyItem){
-          System.out.println("Oh... you changed your mind...");}
+          dialogue.dialogue("Oh... you changed your mind...",1);
+      }
     }
 
-    public void displayPurchase(int isAmount, int item, String product){
-        System.out.println("+-----------------------+");
-        System.out.println("| Item left in stock: " + item + " |");
-        System.out.println("+-----------------------+");
-        System.out.println(ColorText.TEXT_PURPLE + "You bought " + isAmount + " " + product + ColorText.TEXT_RESET);
-        System.out.println("You have " + inventory + " in your inventory");
+    public void displayPurchase(int isAmount, int item, String product) throws InterruptedException {
+        dialogue.dialogue("+-----------------------+",0);
+        dialogue.dialogue("| Item left in stock: " + item + " |",0);
+        dialogue.dialogue("+-----------------------+",1);
+        dialogue.purpleDialogue("You bought " + isAmount + " " + product,1);
+        dialogue.dialogue("You have " + inventory + " in your inventory",1);
     }
 
-    public void decisionToBuy(Character hero, double totalPrice) {
+    public void decisionToBuy(double totalPrice) throws InterruptedException {
         Scanner scan = new Scanner(System.in);
         String displayPrice = String.format("%.2f", totalPrice);
-        System.out.println(ColorText.TEXT_BLUE +ColorText.GLASS_BG + "| a: Pay " + displayPrice + "G | d: Don't pay |"+ ColorText.RESET_BG + ColorText.TEXT_RESET);
+        dialogue.blueDialogue("| a: Pay " + displayPrice + "G | d: Don't pay |",1);
         String decision = scan.nextLine();
         switch (decision) {
             case "a":
             case "pay":
-                System.out.println("In pocket :" + hero.getGold() + "| " + hero.heroName + " has paid " + displayPrice + "G");
+                dialogue.dialogue("In pocket :" + hero.getGold() + "| " + hero.heroName + " has paid " + displayPrice + "G",2);
                 System.out.println(ColorText.TEXT_YELLOW + "-" + displayPrice + "G" + ColorText.TEXT_RESET);
                 hero.withdrawGold(totalPrice);
-                System.out.println("In pocket :" + hero.getGold());
+                dialogue.dialogue("In pocket :" + hero.getGold(),0);
                 notBuyItem = false;
                 break;
             case "d":
@@ -243,7 +258,8 @@ public class Shop {
                 notBuyItem = true;
                 break;
             default:
-                System.out.println("Sorry that's not an option");
+                dialogue.dialogue("Sorry that's not an option",2);
+                notBuyItem = true;
         }}
 
     public void isStockZero(int item, String product, double cost) {
@@ -253,29 +269,26 @@ public class Shop {
         } else {
             System.out.println("A " + product + " is " + cost + "G.");
         }
-
-
     }
 
-    public int amount(int item, String product, Character hero){
+    public int amount(int item, String product) throws InterruptedException {
         int amount = item;
         if(item != 1){
-            System.out.println("How many would you like?");
+            dialogue.dialogue("How many would you like?",1);
             while (!scanAmount.hasNextInt()) {
-                System.out.println("That's not a number. Try again!");
+                dialogue.dialogue("That's not a number. Try again!",1);
                 scanAmount.next();
             }
             amount = scanAmount.nextInt();
 
             if (amount > item) {
-                System.out.println("Sorry we don't have that much in stock..." +
-                        "\nPlease try again");
-                System.out.println(product + " Left: " + item);
+                dialogue.dialogue("Sorry we don't have that much in stock..." +
+                        "\nPlease try again",2);
+                dialogue.dialogue(product + " Left: " + item,1);
                 amount = 0;
             }
         }
         return amount;
-
     }
 
     public int itemToInventory(String product, int item, int amount){
@@ -312,4 +325,6 @@ public class Shop {
     private static String fill() {
         return String.valueOf('-').repeat(Math.max(0, 34));
     }
+
 }
+

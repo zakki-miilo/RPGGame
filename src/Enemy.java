@@ -16,7 +16,9 @@ public class Enemy{
     }
     public Enemy(){};
 
-
+    public void setEnemyType(String enemyType) {
+        this.enemyType = enemyType;
+    }
     public String getEnemyType() {
         return enemyType;
     }
@@ -35,6 +37,10 @@ public class Enemy{
 
     public String weaponType() {
         return weaponType;
+    }
+
+    public void setWeaponType(String weaponType) {
+        this.weaponType = weaponType;
     }
 
     public int getAvgEnemyHealth() {

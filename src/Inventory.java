@@ -1,54 +1,91 @@
 import java.util.Scanner;
 
-public class Inventory {
-    Scanner inventScan = new Scanner(System.in);
+public class Inventory{
+Dialogue dialogue = new Dialogue();
+Scanner inventScan = new Scanner(System.in);
 
-    String userPick = "";
-    int potions;
-    int rocks;
+String userPick = "";
+private int potions;
+private int breads;
+private int sandwiches;
+public Character hero;
+public Enemy enemy;
 
 
-    public Inventory(){
-        this.potions = 3;
-        this.rocks = 5;
+    public Inventory(int sandwiches, int breads, int potions, Character hero, Enemy enemy){
+        this.sandwiches = sandwiches;
+        this.breads = breads;
+        this.potions = potions;
+        this.hero = hero;
+        this.enemy = enemy;
     }
 
-    //TODO: retrieve the arraylist from shop and count how many of the same items are in there. then add that to here.
+    public int getBreads() {
+        return breads;
+    }
 
-    public void stock(Character hero){
-        Battle battle = new Battle(hero);
-        if(potions ==0){
-            System.out.println(ColorText.TEXT_PURPLE + "[No more potions...]" + ColorText.TEXT_RESET);
+    public int getSandwiches() {
+        return sandwiches;
+    }
+
+    public void minusPotions(int potions) {
+        this.potions = this.potions - potions;
+    }
+
+    public int getPotions() {
+        return potions;
+    }
+
+    public void addPotion(int potions){
+        this.potions = this.potions + potions;
+    }
+
+    public void addBread(int breads){
+        this.breads = this.breads + breads;
+    }
+
+    public void addSandwiches(int sandwiches){
+        this.sandwiches = this.sandwiches + sandwiches;
+    }
+
+    public void stock(int item, String name, int healing) throws InterruptedException {
+        if(item !=0){
+            hero.healing(healing);
+            if(name.equals("potion")){
+                dialogue.dialogue("Drinks one " +name+":" +ColorText.TEXT_GREEN+ healing+ "HP" +ColorText.TEXT_RESET, 1);
+            }else{
+                dialogue.dialogue("Ate a " +name+": " +ColorText.TEXT_GREEN+ healing+ "HP" +ColorText.TEXT_RESET, 1);
+            }
+            minusPotions(1);
+            dialogue.cyanDialogue("["+name+" remaining: " + item+ "]", 1);
+            hero.showHealth();
         }else{
-            hero.healing(35);
-            System.out.println("[Drinks one potion:" +ColorText.TEXT_GREEN+ " 35HP]"+ColorText.TEXT_RESET);
-            potions--;
-            System.out.println("[Potions remaining: " + potions+ "]");
-            battle.showHealth(hero);
+            dialogue.purpleDialogue("[No more" +name+"...]", 1);
         }
     }
 
-    public void showItems(Character hero, Enemy enemy) throws InterruptedException {
-        Battle battle = new Battle(hero);
-        //TODO: loop this menu
-        System.out.println(ColorText.TEXT_CYAN +ColorText.GLASS_BG+ "| p: Potions | r: Rocks | n: Notebook | b: Back |"+ColorText.RESET_BG+ColorText.TEXT_RESET);
+    public void showItems(Battle battle) throws InterruptedException {
+        dialogue.blueDialogue("| a: Potions  | s: breads | d: sandwich | b: Back |",0);
+        dialogue.blueDialogue("Potion + 30HP | Bread + 80HP | Sandwich + 25HP ", 1);
         userPick = inventScan.nextLine().toLowerCase();
         switch (userPick){
             case "potions":
-            case "p":
-                stock(hero);
+            case "a":
+                stock(this.potions,"Potion",30);
                 break;
-            case "rocks":
-            case "r":
-                System.out.println("Throw a rock. Orc is unaffected");
+            case "breads":
+            case "s":
+                System.out.println("bread amount:"+ this.breads);
+                stock(this.breads, "Bread",80);
                 break;
-            case "notebook":
-            case "n":
-                System.out.println("No information on this creature.");
+            case "sandwich":
+            case "d":
+                System.out.println("sandwich amount:"+this.sandwiches);
+                stock(this.sandwiches, "Sandwich",25);
                 break;
             case "back":
             case "b":
-                battle.heroBattle(hero, enemy, battle.shop);
+                battle.heroBattle(enemy);
                 break;
             default:
                 System.out.println("Cannot do that...Times up. Enemy is coming!");

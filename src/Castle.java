@@ -3,7 +3,18 @@ import java.util.Scanner;
 public class Castle {
     private int servant = 0;
     int princessRoomCount = 0;
+    Dialogue dialogue = new Dialogue();
     Scanner scan = new Scanner(System.in);
+    public Character hero;
+    public Battle battle;
+    public Inventory inventory;
+
+    public Castle(Character hero, Battle battle, Inventory inventory){
+        this.hero = hero;
+        this.battle = battle;
+        this.inventory = inventory;
+    }
+
     public void setServant(int servant) {
         this.servant = servant;
     }
@@ -15,37 +26,33 @@ public class Castle {
         return princessRoomCount;
     }
 
+    public void castleIntro(Character hero) throws InterruptedException {
+        dialogue.purpleDialogue("5 days later...",1);
+        dialogue.dialogue("Welcome to the kingdom of Erzaakai! Mighty hero, "+ hero.heroName + ", I am king Elpeanor",1);
+        dialogue.dialogue("I am grateful you have arrived so soon!", 1);
+        dialogue.purpleDialogue("Angry and sad...with tears in his eyes",2);
+        dialogue.dialogue("You may have heard by now...my dear princess has been captured.",2);
+        dialogue.purpleDialogue("The King explains the situation to you", 1);
+        dialogue.dialogue("Th-th-thank you brave hero! There is... still hope. Here, this is 200G to aid you in this Journey! Please hurry!", 3);
+        dialogue.yellowDialogue("The King Gives " + hero.heroName + " 200G", 1);
+        hero.setGold(200);
+        dialogue.dialogue("Please talk to the servants, check the princess's room for clues. The culprit may have left something behind.", 2);
+        dialogue.purpleDialogue("Left the throne room", 1);
+
+    }
+
     public void setPrincessRoomCount(int princessRoomCount) {
         this.princessRoomCount = princessRoomCount;
     }
 
-    public void castleIntro(Character hero){
-        System.out.println(ColorText.TEXT_PURPLE + "*Two days later...*" + ColorText.TEXT_RESET);
-        System.out.println("Welcome to the kingdom of Erzaakai! Mighty hero, "+ hero.heroName + ", I am king Elpeanor");
-        System.out.println("I am grateful you have arrived so soon!");
-        System.out.println(ColorText.TEXT_PURPLE +" * Angry and sad...with tears in his eyes*"+ ColorText.TEXT_RESET);
-        System.out.println("You may have heard by now...my dear princess has been captured.");
-        System.out.println(ColorText.TEXT_CYAN+ "Will you accept this quest to find and rescue her?"+ColorText.TEXT_RESET);
-        String answer = scan.nextLine();
-        System.out.println("Th-th-thank you brave hero! There is... still hope. Here, this is 200G to aid you in this Journey! Please hurry!");
-        //Thread.sleep(1000);
-        System.out.println(ColorText.TEXT_YELLOW + "*The King Gives " + hero.heroName + " 200G*" + ColorText.TEXT_RESET);
-        //Thread.sleep(1000);
-        hero.setGold(200);
-        // Thread.sleep(500);
-        System.out.println("\"Please talk to the servants, check the princess's room for clues. The culprit may have left something behind.\"");
-        //Thread.sleep(1000);
-        System.out.println(ColorText.TEXT_PURPLE + "*Left the throne room*" + ColorText.TEXT_RESET);
-        //Thread.sleep(1000);
-    }
-
-    public void castleQuest(Battle battle, Character hero) throws InterruptedException {
+    public void castleQuest() throws InterruptedException {
+        Enemy orc = new Enemy("Orc");
         String answer;
         castleIntro(hero);
-        Enemy orc = new Enemy("Orc");
-        System.out.println("Where do you go?");
+
+        dialogue.dialogue("Where do you go?",1);
         do {
-            System.out.println(ColorText.TEXT_CYAN + ColorText.GLASS_BG + " a: Princess's room | s: Check outside the castle | d:Talk to servants | f: leave " + ColorText.RESET_BG + ColorText.TEXT_RESET);
+            dialogue.blueDialogue(" a: Princess's room | s: Check outside the castle | d:Talk to servants | f: leave ", 1);
             answer = scan.nextLine().toLowerCase();
 
             switch (answer) {
@@ -54,11 +61,11 @@ public class Castle {
                 case "princess's room":
                 case "a":
                     if(getPrincessRoomCount() ==1){
-                        System.out.println("There's nothing in the room...");
+                        dialogue.dialogue("There's nothing in the room...",1);
                         break;
                     }
 
-                    System.out.println(ColorText.TEXT_CYAN + "*Walks into room...Crack!*" + ColorText.TEXT_RESET);
+                    dialogue.cyanDialogue("*Walks into room...Crack!*",1);
                     System.out.println("\"What was that...?\"");
 
                     int chance = 0;
@@ -68,7 +75,7 @@ public class Castle {
                         System.out.println("Searching...");
                         if (answer.equals("ceiling") || answer.equals("d")) {
                             System.out.println(ColorText.TEXT_PURPLE + "* suddenly an orc jumps at you from the shadows above! *" + ColorText.TEXT_RESET);
-                            battle.battleDeath(hero, orc);
+                            battle.battleDeath(orc);
                             //Thread.sleep(3000);
                             System.out.println("\"Th-th-thank you for saving me...It-it...captured me while I went to check on the princess last night\" ");
                             //Thread.sleep(3000);
@@ -112,24 +119,22 @@ public class Castle {
                 case "servant":
                 case "talk to servant":
                 case "d":
-                    servant(getPrincessRoomCount(), hero);
+                    servant(getPrincessRoomCount());
                     break;
                 case "f":
-                    System.out.println(ColorText.TEXT_PURPLE + "*Leaving the castle*" + ColorText.TEXT_RESET);
+                    dialogue.purpleDialogue( "*Leaving the castle*",1);
                     break;
                 default:
-                    System.out.println("Not an option...");
+                    dialogue.cyanDialogue("Not an option...",1);
             }
             if (!answer.equals("f")) {
-                System.out.println(ColorText.TEXT_BLUE + "Anywhere else...?" + ColorText.TEXT_RESET);
+                dialogue.cyanDialogue("Anywhere else...?",0);
             }
         }while (!answer.equals("f"));
-        //System.out.println("\n");
-        System.out.println(ColorText.TEXT_PURPLE+"*Walking down to the center of the kingdom.*" +ColorText.TEXT_RESET);
+        dialogue.purpleDialogue("*Walking down to the center of the kingdom.*", 2);
     }
 
-
-    public void servant(int princessRoomCount, Character hero) {
+    public void servant(int princessRoomCount) throws InterruptedException {
         if (getServant() != 2) {
             if (princessRoomCount != 1 || getServant() == 0) {
                 System.out.println(ColorText.TEXT_PURPLE + "*You search the rooms and talked to the servants of the palace.*" + ColorText.TEXT_RESET);
@@ -148,13 +153,12 @@ public class Castle {
                 hero.goldReward(10);
                 setServant(2);
             } else {
-                System.out.println("\nShe is the princess's maid and I think they took her as well...bu-bu-but I'm not sure. She could still be" +
-                        "\nsomewhere in the castle. If you find her I'll be in your dept. Please hurry, return to me if you find something.");
+                dialogue.dialogue("She is the princess's maid and I think they took her as well...bu-bu-but I'm not sure. She could still be" +
+                        "\nsomewhere in the castle. If you find her I'll be in your dept. Please hurry, return to me if you find something.", 3);
                 setServant(1);
             }
         } else {
-            System.out.println("The chefs are busy cooking lunch for the king. Better leave them to their work...");
+            dialogue.blueDialogue("The chefs are busy cooking lunch for the king. Better leave them to their work...",2);
         }
     }
-
 }
