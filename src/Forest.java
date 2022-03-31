@@ -17,26 +17,36 @@ public class Forest {
 
     public void chapter2() throws InterruptedException {
 
-        dialogue.purpleDialogue("*You Ride on Garr heading towards the forest below the mountains*",1);
-        dialogue.dialogue("The breeze is getting colder, the distance sounds of wolves howling can be heard. Night is fast approaching...",2);
-        dialogue.dialogue("Its too dangerous to continue travelling. You'll have to stop somewhere for the night.",2);
-        dialogue.purpleDialogue("*Night Fall*",1);
-        dialogue.dialogue("What do you do?",1);
-        dialogue.blueDialogue("| a: Setup camp now | s: keep riding | d: Go find an empty hut|",1);
-        mount = scan.nextLine();
-        switch (mount){
-            case "a":
-            case "camp":
-            case "setup camp":
-                setupTent();
-                scholarStory();
-                break;
-            case "s":
-            case "keep riding":
-            case "riding":
-                farmer();
-                break;
-        }
+        dialogue.purpleDialogue("*You Ride on Garr heading towards the forest below the mountains*", 1);
+        dialogue.dialogue("The breeze is getting colder, the distance sounds of wolves howling can be heard. Night is fast approaching...", 2);
+        dialogue.dialogue("Its too dangerous to continue travelling. You'll have to stop somewhere for the night.", 2);
+        dialogue.purpleDialogue("*Night Fall*", 1);
+        dialogue.dialogue("What do you do?", 1);
+
+
+        boolean decisionMade;
+        do {
+            dialogue.blueDialogue("| a: Setup camp now | s: Keep riding", 1);
+            mount = scan.nextLine();
+            decisionMade = false;
+            switch (mount) {
+                case "a":
+                case "camp":
+                case "setup camp":
+                    setupTent();
+                    scholarStory();
+                    decisionMade = true;
+                    break;
+                case "s":
+                case "keep riding":
+                case "riding":
+                    farmer();
+                    decisionMade = true;
+                    break;
+                default:
+                    dialogue.dialogue("That's not an option!", 1);
+            }
+        } while (!decisionMade);
 
     }
 
@@ -131,7 +141,6 @@ public class Forest {
     }
 
     //TODO: go find an empty hut
-    //TODO: keeping riding, then find a farmer. he asks you to stay the night.
 
     public void farmer() throws InterruptedException {
         dialogue.dialogue("...",1);
@@ -143,24 +152,26 @@ public class Forest {
         dialogue.dialogue("...",1);
         battle.battleDeath(fatOrc);
         dialogue.dialogue("Thank you for saving us...pl-please won't you say and have supper with us. Its the least we can do.", 2);
-        //dialogue.dialogue("As a matter of fact, some of my animals has gone missing lately.", 1);
         dialogue.purpleDialogue("The farmer and his wife asked you to stay for supper.", 1);
         dialogue.blueDialogue("a: Stay | d: leave", 1);
         String farm = scan.nextLine();
         switch (farm){
             case "a":
             case "stay":
-                dialogue.dialogue("The farmers made a special supper for you. You enjoyed the evening with them," +
-                        "\nsharing stories and singing and dancing with the folks. They tell you that this wasn't the first time",2);
+                dialogue.dialogue("The farmers made a feast for you to celebrate! You enjoyed the evening with them," +
+                        "\nsharing stories, singing and dancing with the folks. They tell you that this wasn't the first time",2);
                 dialogue.dialogue("that an orc has attacked here. The fat orc has a brother and is sometime seen in the morning.", 2);
                 hero.healing(100);
-                dialogue.purpleDialogue("After a good night sleep, you are good and ready to go.",1);
+                dialogue.purpleDialogue("After a good night sleep, you are ready to go.",1);
                 dialogue.purpleDialogue("Before you leave you decided to wait and help the farmers with their orc problem.",1);
-                dialogue.cyanDialogue("As the farmers said, it showed up. Looking for breakfast amongst the farmer's animals.", 2);
+                dialogue.cyanDialogue("As the farmers said, the orc showed up. Looking for its' breakfast.", 2);
                 dialogue.dialogue("...", 1);
                 battle.battleDeath(fatOrc);
-                dialogue.dialogue("You followed the trail the orc took and return to it's home, a small cave surrounded by large trees.", 2);
-                dialogue.purpleDialogue("Many chests and creates inside. Broken things... Then, something clean, something shiny caught your attention.", 2);
+                dialogue.dialogue("You did! you beat the brothers. Now we can live in peace here.",1);
+                dialogue.purpleDialogue("Everybody thanks you and after the excitement has settle down everyone went back to work.", 1);
+                dialogue.dialogue("You decided to followed the trail the orc took and return to it's home, a small cave surrounded by large trees.", 2);
+                dialogue.purpleDialogue("Many chests and creates inside. Broken things... Then, something clean and shiny caught your attention.", 2);
+                dialogue.purpleDialogue("A rare sword. It looks dark and power.", 2);
                 dialogue.cyanDialogue("SOUL-EATER BLADE ACQUIRED. +70 Strength",1);
                 hero.heroWeapon = "Soul-Eater blade";
                 hero.setHeroWeaponStrength(70);

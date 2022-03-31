@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -54,9 +55,11 @@ public class Shop {
                         if(!notBuyItem){
                             potions = itemToInventory("potion", potions, isAmount);
                             displayPurchase(isAmount, potions, "potion");
-                            inventory.remove("potion");
+                                inventory.removeAll(Collections.singleton("potion"));
+
                             inGameInventory.addPotion(isAmount);
-                            System.out.println(inGameInventory.getPotions() + ": is in pocket");
+                            dialogue.cyanDialogue("Take Potions from Cart and added to Bag", 1);
+
                         }
                         if (potions <= 0) {
                             stockIsZero = true;
@@ -75,9 +78,9 @@ public class Shop {
                         if(!notBuyItem){
                             breads = itemToInventory("bread", breads, isAmount);
                             displayPurchase(isAmount, breads, "bread");
-                           inventory.remove("bread");
+                           inventory.removeAll(Collections.singleton("bread"));
                             inGameInventory.addBread(isAmount);
-                            System.out.println(inGameInventory.getBreads() + ": is in pocket");
+                            dialogue.cyanDialogue("Take Breads from cart and added to Bag", 1);
                         }
                         if (breads <= 0) {
                             stockIsZero = true;
@@ -97,6 +100,8 @@ public class Shop {
                             torch = itemToInventory("torch", torch, isAmount);
                             displayPurchase(isAmount, torch, "torch");
                             hero.torch = true;
+                            dialogue.cyanDialogue("Take torch from cart and added to Bag", 1);
+                            inventory.remove("torch");
                         }
                         if (torch <= 0) {
                             stockIsZero = true;
@@ -115,9 +120,9 @@ public class Shop {
                         if(!notBuyItem){
                             sandwich = itemToInventory("sandwich", sandwich, isAmount);
                             displayPurchase(isAmount, sandwich, "sandwich");
-                            inventory.remove("sandwich");
+                            inventory.removeAll(Collections.singleton("sandwich"));
                             inGameInventory.addSandwiches(isAmount);
-                            System.out.println(inGameInventory.getSandwiches() + ": is in pocket");
+                            dialogue.cyanDialogue("Take Sandwiches from cart and added to Bag", 1);
                         }
                         if (sandwich <= 0) {
                             stockIsZero = true;
@@ -136,6 +141,8 @@ public class Shop {
                             campingTent = itemToInventory("camping tent", campingTent, isAmount);
                             displayPurchase(isAmount, campingTent, "camping tent");
                             hero.campingTent = true;
+                            dialogue.cyanDialogue("Take Camping tent from cart and added to Bag", 1);
+                            inventory.remove("camping tent");
                         }
                         if (campingTent <= 0) {
                             stockIsZero = true;
@@ -193,6 +200,7 @@ public class Shop {
                             displayPurchase(isAmount, woodenShield, "wooden shield");
                             hero.setShield("Wooden Shield");
                             inventory.remove("wooden shield");
+                            dialogue.cyanDialogue("Take Wooden Shield from cart and equipped it.", 1);
                         }
                         if (woodenShield <= 0) {
                             stockIsZero = true;
@@ -217,18 +225,18 @@ public class Shop {
     public void equipWeapon() throws InterruptedException {
         if(inventory.contains("great sword")){
             hero.heroWeapon = "Great Sword";
-            dialogue.dialogue("Take Great Sword from inventory and equip it: +10 damage",1);
-            hero.setHeroWeaponStrength(27);
+            dialogue.cyanDialogue("Take Great Sword from cart and equip it: 25 damage",1);
+            //dialogue.dialogue("\n", 1);
+            hero.setHeroWeaponStrength(25);
             inventory.remove("great sword");
         }
     }
 
     public void checkingBuyOrNot(int isAmount, double price) throws InterruptedException {
         double totalPrice = isAmount * price;
-        decisionToBuy(totalPrice);
-      if(notBuyItem){
-          dialogue.dialogue("Oh... you changed your mind...",1);
-      }
+        checkBalance(totalPrice);
+        //decisionToBuy(totalPrice);
+
     }
 
     public void displayPurchase(int isAmount, int item, String product) throws InterruptedException {
@@ -236,7 +244,7 @@ public class Shop {
         dialogue.dialogue("| Item left in stock: " + item + " |",0);
         dialogue.dialogue("+-----------------------+",1);
         dialogue.purpleDialogue("You bought " + isAmount + " " + product,1);
-        dialogue.dialogue("You have " + inventory + " in your inventory",1);
+        dialogue.dialogue("You have " + inventory + " in your Cart",1);
     }
 
     public void decisionToBuy(double totalPrice) throws InterruptedException {
@@ -247,20 +255,41 @@ public class Shop {
         switch (decision) {
             case "a":
             case "pay":
-                dialogue.dialogue("In pocket :" + hero.getGold() + "| " + hero.heroName + " has paid " + displayPrice + "G",2);
-                System.out.println(ColorText.TEXT_YELLOW + "-" + displayPrice + "G" + ColorText.TEXT_RESET);
-                hero.withdrawGold(totalPrice);
-                dialogue.dialogue("In pocket :" + hero.getGold(),0);
-                notBuyItem = false;
+                    dialogue.dialogue("In pocket :" + hero.getGold() + "| " + hero.heroName + " has paid " + displayPrice + "G",2);
+                    System.out.println(ColorText.TEXT_YELLOW + "-" + displayPrice + "G" + ColorText.TEXT_RESET);
+                    hero.withdrawGold(totalPrice);
+                    dialogue.dialogue("In pocket :" + hero.getGold(),0);
+                    //notBuyItem = false;
+
                 break;
             case "d":
             case "don't pay":
                 notBuyItem = true;
+                if(notBuyItem){
+                    dialogue.dialogue("Oh... you changed your mind...",1);
+                }
                 break;
             default:
                 dialogue.dialogue("Sorry that's not an option",2);
                 notBuyItem = true;
         }}
+
+    public void checkBalance(double totalPrice) throws InterruptedException {
+        StringBuilder gold = new StringBuilder(String.format("%.2f", hero.getGold()));
+        if(hero.getGold() < 0 ){
+            dialogue.dialogue("You have ran out of gold...", 1);
+            dialogue.dialogue("In pocket : " + gold + " G |" + hero.heroName,2);
+            notBuyItem = true;
+        }else if(totalPrice > hero.getGold()){
+            dialogue.dialogue("Looks like you can't afford that...", 1);
+            dialogue.dialogue("In pocket : " + gold+ " G |",0);
+            notBuyItem = true;
+        }
+        else {
+            decisionToBuy(totalPrice);
+        }
+    }
+
 
     public void isStockZero(int item, String product, double cost) {
         if (item == 0) {
