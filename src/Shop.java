@@ -216,7 +216,7 @@ public class Shop {
                 break;
         }
             if (!player.equals("f")) {
-                dialogue.blueDialogue( "Would you like anything else? |f: exit",3);
+                dialogue.blueDialogue( "Would you like anything else? |f: exit",1);
 
             }
         } while (!player.equals("f"));
@@ -250,12 +250,13 @@ public class Shop {
     public void decisionToBuy(double totalPrice) throws InterruptedException {
         Scanner scan = new Scanner(System.in);
         String displayPrice = String.format("%.2f", totalPrice);
+        String pocket = String.format("%.2f",hero.getGold());
         dialogue.blueDialogue("| a: Pay " + displayPrice + "G | d: Don't pay |",1);
         String decision = scan.nextLine();
         switch (decision) {
             case "a":
             case "pay":
-                    dialogue.dialogue("In pocket :" + hero.getGold() + "| " + hero.heroName + " has paid " + displayPrice + "G",2);
+                    dialogue.dialogue("In pocket :" + pocket + "| " + hero.heroName + " has paid " + displayPrice + "G",2);
                     System.out.println(ColorText.TEXT_YELLOW + "-" + displayPrice + "G" + ColorText.TEXT_RESET);
                     hero.withdrawGold(totalPrice);
                     dialogue.dialogue("In pocket :" + hero.getGold(),0);
@@ -265,9 +266,7 @@ public class Shop {
             case "d":
             case "don't pay":
                 notBuyItem = true;
-                if(notBuyItem){
-                    dialogue.dialogue("Oh... you changed your mind...",1);
-                }
+                dialogue.dialogue("Oh... you changed your mind...",1);
                 break;
             default:
                 dialogue.dialogue("Sorry that's not an option",2);

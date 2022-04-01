@@ -65,8 +65,8 @@ public Enemy enemy;
     }
 
     public void showItems(Battle battle) throws InterruptedException {
-        dialogue.blueDialogue("| a: Potions  | s: breads | d: sandwich | b: Back |",0);
-        dialogue.blueDialogue("Potion + 30HP | Bread + 80HP | Sandwich + 25HP ", 1);
+        dialogue.blueDialogue("| a: Potions  | s: breads  |  d: sandwich   | b: Back |",0);
+        dialogue.dialogue("| | POTION +" + highlight("30HP")+ "| BREAD +" + highlight("80HP")+ "| SANDWICH +" + highlight("25HP")+ " ||", 1);
         userPick = inventScan.nextLine().toLowerCase();
         switch (userPick){
             case "potions":
@@ -75,13 +75,11 @@ public Enemy enemy;
                 break;
             case "breads":
             case "s":
-                System.out.println("bread amount:"+ this.breads);
                 stock(this.breads, "Bread",80);
                 break;
             case "sandwich":
             case "d":
-                System.out.println("sandwich amount:"+this.sandwiches);
-                stock(this.sandwiches, "Sandwich",25);
+                stock(this.sandwiches, "Sandwich",50);
                 break;
             case "back":
             case "b":
@@ -90,6 +88,10 @@ public Enemy enemy;
             default:
                 System.out.println("Cannot do that...Times up. Enemy is coming!");
         }
+    }
+
+    public String highlight(String text){
+        return ColorText.TEXT_GREEN + text + ColorText.TEXT_RESET;
     }
 
 }

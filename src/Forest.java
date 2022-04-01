@@ -77,6 +77,7 @@ public class Forest {
             case "go help":
                 System.out.println("A man is in trouble, He's being attacked by two wolves. " +
                         "One of the wolf turns and starts attacking you\n");
+                wolf.setWeaponsStrength(30);
                 battle.battleDeath(wolf);
                 System.out.println("Thank you for saving me. Here please take this.\n" +
                         "If you didn't show up just then I would have surely died.");
@@ -118,7 +119,7 @@ public class Forest {
         dialogue.dialogue("A table with scrolls and manuals. Something in the corner spotted your eyes. A magnificent ", 2);
         dialogue.dialogue("set of armour you have seen, and beside that lays something even greater. It's the legendary Excalibur. ", 2);
         dialogue.purpleDialogue("You take the treasures and said goodbye to the scholar. He stayed behind and study what he found.", 1);
-        System.out.println(ColorText.TEXT_BLUE+"Strong armour acquired! Defense + 19"+ColorText.TEXT_RESET);
+        System.out.println(ColorText.TEXT_BLUE+"King's armour acquired! Defense + 20"+ColorText.TEXT_RESET);
         System.out.println(ColorText.TEXT_BLUE+"Excalibur acquired!* Attack + 60"+ColorText.TEXT_RESET);
         hero.heroWeapon = "Excalibur";
         hero.setHeroWeaponStrength(60);
@@ -132,7 +133,7 @@ public class Forest {
         System.out.println("The light shows skeletons, creates, and chests around the cave. The " +
                 "\nscholar was mostly interested in scrolls, and interesting looking things.\n" +
                 "\"take whatever equipment you find. I have no need of them.\"");
-        System.out.println(ColorText.TEXT_BLUE+"Leather armour acquired! Defense + 11"+ColorText.TEXT_RESET);
+        System.out.println(ColorText.TEXT_BLUE+"Leather armour acquired! Defense + 10"+ColorText.TEXT_RESET);
         System.out.println(ColorText.TEXT_BLUE+"Claymore Sword acquired!* Attack + 40"+ColorText.TEXT_RESET);
         hero.heroWeapon = "Claymore Sword";
         hero.setHeroWeaponStrength(60);

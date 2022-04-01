@@ -41,8 +41,8 @@ public Mountain(Character hero,Inventory inventory, Battle battle){
             case "follow bandit":
                 dialogue.dialogue("You follow the bandit" +
                         "\nWhen it was far enough you attack him!", 3);
-                bandit.setWeaponsStrength(35);
-                bandit.setEnemyHp(80);
+                bandit.setWeaponsStrength(60);
+                bandit.setEnemyHp(100);
                 battle.battleDeath(bandit);
                 dialogue.dialogue("After defeating the bandit you took the outfit and disguise yourself as one.", 1);
                 dialogue.dialogue("You go back to his post pretending to be the bandit. When the Orc was not looking" +
@@ -63,8 +63,8 @@ public Mountain(Character hero,Inventory inventory, Battle battle){
                         "\nThe orc king is not dead yet. It sees you trying to escapes and madly chases after you.",2);
                 dialogue.dialogue("You tell the princess to get down the mountain and wait for you, while you stay and fight The King of Orc.", 1);
                 boss.setWeaponType("God's Axe");
-                boss.setEnemyHp(100);
-                boss.setWeaponsStrength(30);
+                boss.setEnemyHp(150);
+                boss.setWeaponsStrength(80);
                 battle.battleDeath(boss);
                 defeatBossDialogue("You defeated Death-Eye King of the ORC!");
                 dialogue.dialogue("ALl the reminding orcs and bandits had ran away!",2);
@@ -77,8 +77,8 @@ public Mountain(Character hero,Inventory inventory, Battle battle){
                 dialogue.purpleDialogue("*You stay and watch the orc. Waiting for a chance to kill it*", 1);
                 dialogue.dialogue("The bandit should have gone far enough by now. There is a chance, so you take it!" +
                         "\nyou dashed at the orc and attack him!\n", 4);
-                orc.setEnemyHp(100);
-                orc.setWeaponsStrength(40);
+                orc.setEnemyHp(110);
+                orc.setWeaponsStrength(70);
                 orc.setWeaponType("Steel Hammer");
                 battle.battleDeath(orc);
                 boss();
@@ -97,8 +97,8 @@ public Mountain(Character hero,Inventory inventory, Battle battle){
 
     public void boss() throws InterruptedException {
         boss.setWeaponType("God's Axe");
-        boss.setEnemyHp(200);
-        boss.setWeaponsStrength(60); //change back to 60
+        boss.setEnemyHp(220);
+        boss.setWeaponsStrength(80); //change back to 60
 
         dialogue.dialogue("A massive orc sits in his throne in the middle of the large open cave. Torches lit all over." +
                 "\nBehind this King Orc you see the princess. She's being held captive in a bird cage hanging beside the " +

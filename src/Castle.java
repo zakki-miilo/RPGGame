@@ -8,11 +8,14 @@ public class Castle {
     public Character hero;
     public Battle battle;
     public Inventory inventory;
+    //public Enemy enemy;
+    Enemy weakOrc = new Enemy("Orc");
 
     public Castle(Character hero, Battle battle, Inventory inventory){
         this.hero = hero;
         this.battle = battle;
         this.inventory = inventory;
+        //this.enemy = enemy;
     }
 
     public void setServant(int servant) {
@@ -34,8 +37,8 @@ public class Castle {
         dialogue.dialogue("You may have heard by now...my dear princess has been captured.",2);
         dialogue.purpleDialogue("The King explains the situation to you", 1);
         dialogue.dialogue("Th-th-thank you brave hero! There is... still hope. Here, this is 200G to aid you in this Journey! Please hurry!", 3);
-        dialogue.yellowDialogue("The King Gives " + hero.heroName + " 200G", 1);
-        hero.setGold(200);
+        dialogue.yellowDialogue("The King Gives " + hero.heroName + " 300G", 1);
+        hero.setGold(300);
         dialogue.dialogue("Please talk to the servants, check the princess's room for clues. The culprit may have left something behind.", 2);
         dialogue.purpleDialogue("Left the throne room", 1);
 
@@ -46,10 +49,11 @@ public class Castle {
     }
 
     public void castleQuest() throws InterruptedException {
-        Enemy orc = new Enemy("Orc");
+
         String answer;
         castleIntro(hero);
-
+        weakOrc.setEnemyHp(60);
+        weakOrc.setWeaponsStrength(15);
         dialogue.dialogue("Where do you go?",1);
         do {
             dialogue.blueDialogue(" a: Princess's room | s: Check outside the castle | d:Talk to servants | f: leave ", 1);
@@ -75,7 +79,7 @@ public class Castle {
                         System.out.println("Searching...");
                         if (answer.equals("ceiling") || answer.equals("d")) {
                             System.out.println(ColorText.TEXT_PURPLE + "* suddenly an orc jumps at you from the shadows above! *" + ColorText.TEXT_RESET);
-                            battle.battleDeath(orc);
+                            battle.battleDeath(weakOrc);
                             //Thread.sleep(3000);
                             System.out.println("\"Th-th-thank you for saving me...It-it...captured me while I went to check on the princess last night\" ");
                             //Thread.sleep(3000);
@@ -160,5 +164,9 @@ public class Castle {
         } else {
             dialogue.blueDialogue("The chefs are busy cooking lunch for the king. Better leave them to their work...",2);
         }
+    }
+
+    public void weakOrc(){
+
     }
 }

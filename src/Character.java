@@ -12,6 +12,7 @@ public class Character{
     private int shieldStrength = 0;
     boolean campingTent;
     boolean torch;
+    Dialogue dialogue = new Dialogue();
 
 public Character(){}
 
@@ -32,7 +33,7 @@ public Character(){}
     }
 
     public void setShieldStrength(int shieldStrength) {
-        this.shieldStrength = shieldStrength;
+        this.shieldStrength = this.shieldStrength + shieldStrength;
     }
 
     public String getShield() {
@@ -63,8 +64,8 @@ public Character(){}
         return health;
     }
 
-    public void showHealth(){
-        System.out.println(ColorText.TEXT_BLUE + ColorText.GLASS_BG +"|| " + heroName + " | HP: " + health + " ||"+ ColorText.RESET_BG + ColorText.TEXT_RESET);
+    public void showHealth() throws InterruptedException {
+        dialogue.greenGlassDialogue("|| " + heroName + " | HP: " + health + " ||", 1);
     }
 
     public void damageHealth(int damage) {
@@ -99,7 +100,7 @@ public Character(){}
         this.gold -= gold;
     }
     public void goldReward(int reward){
-        int gold = rand.nextInt(20)+5;
+        int gold = rand.nextInt(40-15)+15;
         gold = gold + reward;
         this.setGold(gold);
         System.out.println(ColorText.TEXT_YELLOW + "| +"+ gold +"G |" + ColorText.TEXT_RESET);

@@ -14,7 +14,7 @@ public class Enemy{
         this.enemyType = type;
 
     }
-    public Enemy(){};
+    public Enemy(){}
 
     public void setEnemyType(String enemyType) {
         this.enemyType = enemyType;
@@ -59,7 +59,7 @@ public class Enemy{
     }
 
     private int avgEnemyHealthRandom(){
-        return enemyHp = rand.nextInt(70-45)+45;
+        return enemyHp = rand.nextInt(80-55)+55;
     }
 
     private String weapon(){
@@ -73,10 +73,10 @@ public class Enemy{
     private int weaponStrength(){
         switch (weaponType){
             case "Stick":
-                weaponsStrength = 17;
+                weaponsStrength = 18;
                 break;
             case "Short Sword":
-                weaponsStrength = 18;
+                weaponsStrength = 22;
                 break;
             case "Long Sword":
                 weaponsStrength = 24;

@@ -11,6 +11,7 @@ public class Town {
     Shop shop;
     Story story;
     Enemy enemy;
+    boolean fishermanQuest = false;
 
     public Town(Character hero, Battle battle, Inventory inventory, Shop shop, Story story, Enemy enemy){
         this.hero = hero;
@@ -23,7 +24,7 @@ public class Town {
 
     public void town() throws FileNotFoundException, InterruptedException {
         story.toTown();
-        dialogue.dialogue("What do you do?",1);
+        dialogue.dialogue("What do you do?",3);
         String decision;
         do {
             dialogue.blueDialogue("a: Blue's shop | s: Talk to Villagers | d: Head to pub | f: leave town |",1);
@@ -96,13 +97,17 @@ public class Town {
             case "orcs":
             case "ask about orcs":
             case "about orcs":
-                System.out.println("You want some information aye...It's going to cost you. How about...5G");
-                buying(hero, 5);
-                if(notBuy){
-                    System.out.println("Sorry then aye, I cannot help you... information are valuable these days.");
+                if(!fishermanQuest){
+                    System.out.println("You want some information aye...It's going to cost you. How about...5G");
+                    buying(hero, 5);
+                    if(notBuy){
+                        System.out.println("Sorry then aye, I cannot help you... information are valuable these days.");
 
+                    }else {
+                        fishermanQuest();
+                    }
                 }else {
-                    fishermanQuest();
+                    dialogue.dialogue("Ther's nothin else me know. I sorry can't help anymore...", 1);
                 }
                 break;
             case "troubles":
@@ -155,31 +160,33 @@ public class Town {
 
     public void fishermanQuest() throws InterruptedException {
         Scanner scan = new Scanner(System.in);
-        System.out.println("-------------------------");
-        System.out.println("Thanks aye, heard the Orcs and bandits are feeling\n" +
+        dialogue.dialogue("-------------------------",2);
+        dialogue.dialogue("Thanks aye, heard the Orcs and bandits are feeling\n" +
                 "restless these days. Thee horrible " +
                 "Orcs are still living...hiding in the shadows and wrecking havoc n' everything!\n" +
                 "ruined one of me fishing spot, stoling all me fishes, they did aye...\n" +
-                "heard them dwelling deep in mountains...up to something, feel it in me bones.");
-        System.out.println(ColorText.TEXT_PURPLE + "*Suddenly the fisherman had an idea*"+ ColorText.TEXT_RESET);
-        System.out.println("Aye, say ya help an old man out. Mind going and check'n the fishing area and getting rid of anything" +
-                "\nthere ya see? will pay ya greatly, wat aye say..");
-        System.out.println(ColorText.TEXT_CYAN + "Do you accept quest?"+ ColorText.TEXT_RESET);
-        System.out.println(ColorText.TEXT_CYAN + ColorText.GLASS_BG + " a: Yes | d: No " + ColorText.RESET_BG + ColorText.TEXT_RESET);
+                "heard them dwelling deep in mountains...up to something, feel it in me bones.",1);
+        dialogue.purpleDialogue("*Suddenly the fisherman had an idea*", 1);
+        dialogue.dialogue("Aye, say ya help an old man out. Mind going and check'n the fishing area and getting rid of anything" +
+                "\nthere ya see? will pay ya greatly, wat aye say..",1);
+        dialogue.cyanDialogue( "Do you accept quest?",1);
+        dialogue.blueDialogue(" a: Yes | d: No ",1);
         String decision = scan.nextLine().toLowerCase();
         switch (decision){
             case "a":
             case "yes":
-                System.out.println("Thankss...you do an old man great favour, you arr. Here show ya area on map.");
-                System.out.println(ColorText.TEXT_PURPLE + "*The fisherman draws on your map...*"+ ColorText.TEXT_RESET);
-                System.out.println("alrite. ain't about half a day on horse to the south aye.");
-                System.out.println(ColorText.TEXT_PURPLE + "*You go to the saddle house and retrieve your horse, Garr.*\n"+ ColorText.TEXT_RESET);
+                dialogue.dialogue("Thankss...you do an old man great favour, you arr. Here show ya area on map.",1);
+                dialogue.dialogue("The fisherman draws on your map...",1);
+                dialogue.dialogue("alrite. ain't about half a day on horse to the south aye.",1);
+                dialogue.purpleDialogue( "You go to the saddle house and retrieve your horse, Garr.",1);
+                dialogue.dialogue("...", 1);
                 battle.battleDeath(enemy);
-                System.out.println(ColorText.TEXT_PURPLE + "*After clearing the fishing spot you return to the fisherman*\n"+ ColorText.TEXT_RESET);
-                System.out.println("Yo-you're back already aye! defeated all the creatures that were there? ain't you something, Great Hero!\n" +
-                        "Here's your reward.");
+                dialogue.purpleDialogue( "After clearing the fishing spot you return to the fisherman",1);
+                dialogue.dialogue("Yo-you're back already aye! defeated all the creatures that were there? ain't you something, Great Hero!\n" +
+                        "Here's your reward.",2);
                 hero.goldReward(10);
                 hero.goldInPocket();
+                fishermanQuest = true;
                 break;
             default:
                 dialogue.dialogue("Ah...say no more, busy are we. Fair is fair. Another day maybe...",2);
