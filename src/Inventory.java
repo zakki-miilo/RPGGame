@@ -28,8 +28,15 @@ public Enemy enemy;
         return sandwiches;
     }
 
-    public void minusPotions(int potions) {
-        this.potions = this.potions - potions;
+    public void minusItem(int item) {
+       if(item == potions){
+           this.potions -= 1;
+       }else if(item == breads){
+           this.breads -= 1;
+       }else if(item == sandwiches){
+           this.sandwiches -=1;
+       }
+
     }
 
     public int getPotions() {
@@ -49,6 +56,7 @@ public Enemy enemy;
     }
 
     public void stock(int item, String name, int healing) throws InterruptedException {
+        dialogue.cyanDialogue("["+name+" remaining: " + item+ "]", 1);
         if(item !=0){
             hero.healing(healing);
             if(name.equals("potion")){
@@ -56,11 +64,10 @@ public Enemy enemy;
             }else{
                 dialogue.dialogue("Ate a " +name+": " +ColorText.TEXT_GREEN+ healing+ "HP" +ColorText.TEXT_RESET, 1);
             }
-            minusPotions(1);
-            dialogue.cyanDialogue("["+name+" remaining: " + item+ "]", 1);
+            minusItem(item);
             hero.showHealth();
         }else{
-            dialogue.purpleDialogue("[No more" +name+"...]", 1);
+            dialogue.purpleDialogue("[No more " +name+"...]", 1);
         }
     }
 
