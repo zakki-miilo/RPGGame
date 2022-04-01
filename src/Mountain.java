@@ -18,7 +18,7 @@ public Mountain(Character hero,Inventory inventory, Battle battle){
 
     public void finalChapter() throws InterruptedException {
         dialogue.dialogue("...",0);
-        dialogue.purpleDialogue("A few days passes riding to the mountains",1);
+        dialogue.purpleDialogue("A few days passes as you ride to the mountains",1);
         entranceCave();
 
 

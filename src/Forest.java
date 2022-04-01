@@ -181,6 +181,11 @@ public class Forest {
             default:
                 dialogue.dialogue("Very well...You are in a hurry to find the princess. If you happen to travel this way again" +
                         "\nplease stop by.", 2);
+                dialogue.dialogue("Before you leave we have something to give you. This armour has been with us for some time but" +
+                        "\nit's only collecting dusk. We want you to have it.", 1);
+                dialogue.blueDialogue("ACQUIRED gold armour!", 1);
+                hero.setArmor("Gold Armour");
+                hero.healing(100);
 
         }
 

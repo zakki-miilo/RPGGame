@@ -24,6 +24,7 @@ public class Battle{
     boolean kingsArmour = false;
     boolean lightArmour = false;
     boolean woodenShield = false;
+    boolean goldArmour = false;
 
     public Battle(Character hero, Shop shop, Inventory inventory, Enemy enemy) {
         this.hero = hero;
@@ -59,6 +60,11 @@ public class Battle{
     public void equipArmour(){
         if(hero.getArmor().equals("Light Armour")){
             lightArmour = true;
+        }
+
+        if(hero.getArmor().equals("Gold Armour")){
+            lightArmour = false;
+            goldArmour = true;
         }
     }
 
@@ -128,7 +134,7 @@ public class Battle{
     public void attackType(Enemy enemy, int coin){
         switch (enemy.getEnemyType()){
             case "orc":
-            case "fatOrc":
+            case "Fat Orc":
             case "Orc":
             case "Death-Eye, King of the ORC":
             case "Warrior Orc":
@@ -201,7 +207,7 @@ public class Battle{
                     break;
                 case "defend":
                 case "s":
-                    dialogue.purpleDialogue( "In a defense stand. Ready to block"+ColorText.TEXT_RESET, 1);
+                    dialogue.purpleDialogue( "In a defense stand. Ready to block", 1);
                     shield = true;
                     break;
                 default:
@@ -221,15 +227,15 @@ public class Battle{
             }else{
                 if (shield) {
                     int normalStrength = enemy.getWeaponsStrength();
-                    int percentage = (normalStrength/4);
-                    dialogue.dialogue("Enemy strength: " + normalStrength,1);
-                    dialogue.dialogue("enemy 4 of strength: " + percentage,1);
-                    enemy.setWeaponsStrength(percentage);
+                    //int percentage = (normalStrength/4);
+                    //dialogue.dialogue("Enemy strength: " + normalStrength,1);
+                    //dialogue.dialogue("enemy 4 of strength: " + percentage,1);
+                    enemy.setWeaponsStrength(0);
                     System.out.println("---------------------------");
                     attackType(enemy, roll);
                     hero.damageHealth(enemy.getWeaponsStrength());
                     System.out.println("__________________________");
-                    dialogue.redDialogue("*Attack does a small amount of damage -" + percentage+ColorText.TEXT_RESET, 1);
+                    dialogue.dialogue("Attack does NO DAMAGE", 1);
                     System.out.println("---------------------------");
                     hero.showHealth();
 
@@ -267,6 +273,8 @@ public class Battle{
             dialogue.dialogue("Leather armour is equipped + 10 DEF", 1);
         }else if(kingsArmour){
             dialogue.dialogue("King's armour is equipped + 20 DEF", 1);
+        }else if(goldArmour){
+            dialogue.dialogue("Gold armour is equipped + 15", 1);
         }
 
         showEnemyHp(enemy);
@@ -332,6 +340,8 @@ public class Battle{
             damage -= 20;
         }else if(leatherArmour){
             damage -= 10;
+        }else if(goldArmour){
+            damage -= 15;
         }
         if(damage <= 0){
             damage = 0;

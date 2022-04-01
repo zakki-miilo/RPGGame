@@ -66,7 +66,7 @@ public Enemy enemy;
 
     public void showItems(Battle battle) throws InterruptedException {
         dialogue.blueDialogue("| a: Potions  | s: breads  |  d: sandwich   | b: Back |",0);
-        dialogue.dialogue("| | POTION +" + highlight("30HP")+ "| BREAD +" + highlight("80HP")+ "| SANDWICH +" + highlight("25HP")+ " ||", 1);
+        dialogue.dialogue("| | POTION +" + highlight("30HP")+ "| BREAD +" + highlight("80HP")+ "| SANDWICH +" + highlight("50HP")+ " ||", 1);
         userPick = inventScan.nextLine().toLowerCase();
         switch (userPick){
             case "potions":

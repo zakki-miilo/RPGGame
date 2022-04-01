@@ -37,8 +37,8 @@ public class Castle {
         dialogue.dialogue("You may have heard by now...my dear princess has been captured.",2);
         dialogue.purpleDialogue("The King explains the situation to you", 1);
         dialogue.dialogue("Th-th-thank you brave hero! There is... still hope. Here, this is 200G to aid you in this Journey! Please hurry!", 3);
-        dialogue.yellowDialogue("The King Gives " + hero.heroName + " 300G", 1);
-        hero.setGold(300);
+        dialogue.yellowDialogue("The King Gives " + hero.heroName + " 220G", 1);
+        hero.setGold(220);
         dialogue.dialogue("Please talk to the servants, check the princess's room for clues. The culprit may have left something behind.", 2);
         dialogue.purpleDialogue("Left the throne room", 1);
 
